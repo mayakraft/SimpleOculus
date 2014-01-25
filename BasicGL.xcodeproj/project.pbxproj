@@ -18,6 +18,11 @@
 		D541EBB21893C82500B069F4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D541EB911893C82500B069F4 /* Cocoa.framework */; };
 		D541EBBA1893C82500B069F4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D541EBB81893C82500B069F4 /* InfoPlist.strings */; };
 		D541EBBC1893C82500B069F4 /* BasicGLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D541EBBB1893C82500B069F4 /* BasicGLTests.m */; };
+		D541EBC718944EC900B069F4 /* GLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = D541EBC618944EC900B069F4 /* GLView.mm */; };
+		D541EBC9189450E300B069F4 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D541EBC8189450E300B069F4 /* OpenGL.framework */; };
+		D541EBCC1894526A00B069F4 /* GLRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = D541EBCA1894526A00B069F4 /* GLRenderer.mm */; };
+		D541EBCD1894542100B069F4 /* GLRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = D541EBCA1894526A00B069F4 /* GLRenderer.mm */; };
+		D541EBD318945CC200B069F4 /* BasicRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = D541EBD118945CC200B069F4 /* BasicRenderer.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +55,13 @@
 		D541EBB71893C82500B069F4 /* BasicGLTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BasicGLTests-Info.plist"; sourceTree = "<group>"; };
 		D541EBB91893C82500B069F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D541EBBB1893C82500B069F4 /* BasicGLTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BasicGLTests.m; sourceTree = "<group>"; };
+		D541EBC518944EC900B069F4 /* GLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLView.h; sourceTree = "<group>"; };
+		D541EBC618944EC900B069F4 /* GLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GLView.mm; sourceTree = "<group>"; };
+		D541EBC8189450E300B069F4 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		D541EBCA1894526A00B069F4 /* GLRenderer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GLRenderer.mm; sourceTree = "<group>"; };
+		D541EBCB1894526A00B069F4 /* GLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLRenderer.h; sourceTree = "<group>"; };
+		D541EBD118945CC200B069F4 /* BasicRenderer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BasicRenderer.mm; sourceTree = "<group>"; };
+		D541EBD218945CC200B069F4 /* BasicRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicRenderer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D541EBC9189450E300B069F4 /* OpenGL.framework in Frameworks */,
 				D541EB921893C82500B069F4 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,6 +108,7 @@
 		D541EB901893C82500B069F4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D541EBC8189450E300B069F4 /* OpenGL.framework */,
 				D541EB911893C82500B069F4 /* Cocoa.framework */,
 				D541EBB01893C82500B069F4 /* XCTest.framework */,
 				D541EB931893C82500B069F4 /* Other Frameworks */,
@@ -117,6 +131,9 @@
 			children = (
 				D541EBA31893C82500B069F4 /* AppDelegate.h */,
 				D541EBA41893C82500B069F4 /* AppDelegate.m */,
+				D541EBC518944EC900B069F4 /* GLView.h */,
+				D541EBC618944EC900B069F4 /* GLView.mm */,
+				D541EBD018945C8100B069F4 /* C++ */,
 				D541EBA61893C82500B069F4 /* MainMenu.xib */,
 				D541EBA91893C82500B069F4 /* Images.xcassets */,
 				D541EB981893C82500B069F4 /* Supporting Files */,
@@ -152,6 +169,17 @@
 				D541EBB81893C82500B069F4 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D541EBD018945C8100B069F4 /* C++ */ = {
+			isa = PBXGroup;
+			children = (
+				D541EBCB1894526A00B069F4 /* GLRenderer.h */,
+				D541EBCA1894526A00B069F4 /* GLRenderer.mm */,
+				D541EBD218945CC200B069F4 /* BasicRenderer.h */,
+				D541EBD118945CC200B069F4 /* BasicRenderer.mm */,
+			);
+			name = "C++";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -253,7 +281,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D541EBA51893C82500B069F4 /* AppDelegate.m in Sources */,
+				D541EBCC1894526A00B069F4 /* GLRenderer.mm in Sources */,
+				D541EBD318945CC200B069F4 /* BasicRenderer.mm in Sources */,
 				D541EB9E1893C82500B069F4 /* main.m in Sources */,
+				D541EBC718944EC900B069F4 /* GLView.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D541EBBC1893C82500B069F4 /* BasicGLTests.m in Sources */,
+				D541EBCD1894542100B069F4 /* GLRenderer.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,6 +419,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BasicGL/BasicGL-Prefix.pch";
 				INFOPLIST_FILE = "BasicGL/BasicGL-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -400,6 +433,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BasicGL/BasicGL-Prefix.pch";
 				INFOPLIST_FILE = "BasicGL/BasicGL-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -408,12 +442,14 @@
 		D541EBC31893C82500B069F4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/BasicGL.app/Contents/MacOS/BasicGL";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
 				);
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BasicGL/BasicGL-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -421,6 +457,9 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "BasicGLTests/BasicGLTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_CFLAGS = "";
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -430,15 +469,20 @@
 		D541EBC41893C82500B069F4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/BasicGL.app/Contents/MacOS/BasicGL";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
 				);
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BasicGL/BasicGL-Prefix.pch";
 				INFOPLIST_FILE = "BasicGLTests/BasicGLTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_CFLAGS = "";
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
