@@ -12,6 +12,9 @@
 		D53E29F21895F69000EBEFA2 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D53E29F11895F69000EBEFA2 /* IOKit.framework */; };
 		D53E29F41895F69400EBEFA2 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D53E29F31895F69400EBEFA2 /* IOSurface.framework */; };
 		D53E29F61895F6CC00EBEFA2 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D53E29F51895F6CC00EBEFA2 /* ApplicationServices.framework */; };
+		D53E29F918965CB500EBEFA2 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D53E29F818965CB500EBEFA2 /* GLUT.framework */; };
+		D53E29FC18965CC200EBEFA2 /* Texture.mm in Sources */ = {isa = PBXBuildFile; fileRef = D53E29FB18965CC200EBEFA2 /* Texture.mm */; };
+		D53E29FE18965E4700EBEFA2 /* outside.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D53E29FD18965E4700EBEFA2 /* outside.jpg */; };
 		D541EB921893C82500B069F4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D541EB911893C82500B069F4 /* Cocoa.framework */; };
 		D541EB9C1893C82500B069F4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D541EB9A1893C82500B069F4 /* InfoPlist.strings */; };
 		D541EB9E1893C82500B069F4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D541EB9D1893C82500B069F4 /* main.m */; };
@@ -22,7 +25,7 @@
 		D541EBB11893C82500B069F4 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D541EBB01893C82500B069F4 /* XCTest.framework */; };
 		D541EBB21893C82500B069F4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D541EB911893C82500B069F4 /* Cocoa.framework */; };
 		D541EBBA1893C82500B069F4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D541EBB81893C82500B069F4 /* InfoPlist.strings */; };
-		D541EBBC1893C82500B069F4 /* BasicGLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D541EBBB1893C82500B069F4 /* BasicGLTests.m */; };
+		D541EBBC1893C82500B069F4 /* SimpleOculusTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D541EBBB1893C82500B069F4 /* SimpleOculusTests.m */; };
 		D541EBC718944EC900B069F4 /* GLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = D541EBC618944EC900B069F4 /* GLView.mm */; };
 		D541EBC9189450E300B069F4 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D541EBC8189450E300B069F4 /* OpenGL.framework */; };
 		D541EBCC1894526A00B069F4 /* GLRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = D541EBCA1894526A00B069F4 /* GLRenderer.mm */; };
@@ -137,31 +140,33 @@
 		D53E29BB1895F1C200EBEFA2 /* Util_LatencyTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util_LatencyTest.h; sourceTree = "<group>"; };
 		D53E29BC1895F1C200EBEFA2 /* Util_Render_Stereo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Util_Render_Stereo.cpp; sourceTree = "<group>"; };
 		D53E29BD1895F1C200EBEFA2 /* Util_Render_Stereo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util_Render_Stereo.h; sourceTree = "<group>"; };
-		D53E29EC1895F1CA00EBEFA2 /* tinyxml2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml2.cpp; sourceTree = "<group>"; };
-		D53E29ED1895F1CA00EBEFA2 /* tinyxml2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyxml2.h; sourceTree = "<group>"; };
 		D53E29EF1895F68500EBEFA2 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		D53E29F11895F69000EBEFA2 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		D53E29F31895F69400EBEFA2 /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = System/Library/Frameworks/IOSurface.framework; sourceTree = SDKROOT; };
 		D53E29F51895F6CC00EBEFA2 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
-		D541EB8E1893C82500B069F4 /* BasicGL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BasicGL.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D53E29F818965CB500EBEFA2 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		D53E29FA18965CC200EBEFA2 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
+		D53E29FB18965CC200EBEFA2 /* Texture.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Texture.mm; sourceTree = "<group>"; };
+		D53E29FD18965E4700EBEFA2 /* outside.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = outside.jpg; sourceTree = "<group>"; };
+		D541EB8E1893C82500B069F4 /* SimpleOculus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleOculus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D541EB911893C82500B069F4 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D541EB941893C82500B069F4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		D541EB951893C82500B069F4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D541EB961893C82500B069F4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		D541EB991893C82500B069F4 /* BasicGL-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BasicGL-Info.plist"; sourceTree = "<group>"; };
+		D541EB991893C82500B069F4 /* SimpleOculus-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SimpleOculus-Info.plist"; sourceTree = "<group>"; };
 		D541EB9B1893C82500B069F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D541EB9D1893C82500B069F4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		D541EB9F1893C82500B069F4 /* BasicGL-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BasicGL-Prefix.pch"; sourceTree = "<group>"; };
+		D541EB9F1893C82500B069F4 /* SimpleOculus-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SimpleOculus-Prefix.pch"; sourceTree = "<group>"; };
 		D541EBA11893C82500B069F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		D541EBA31893C82500B069F4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D541EBA41893C82500B069F4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		D541EBA71893C82500B069F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		D541EBA91893C82500B069F4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		D541EBAF1893C82500B069F4 /* BasicGLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BasicGLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D541EBAF1893C82500B069F4 /* SimpleOculusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleOculusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D541EBB01893C82500B069F4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		D541EBB71893C82500B069F4 /* BasicGLTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BasicGLTests-Info.plist"; sourceTree = "<group>"; };
+		D541EBB71893C82500B069F4 /* SimpleOculusTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SimpleOculusTests-Info.plist"; sourceTree = "<group>"; };
 		D541EBB91893C82500B069F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		D541EBBB1893C82500B069F4 /* BasicGLTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BasicGLTests.m; sourceTree = "<group>"; };
+		D541EBBB1893C82500B069F4 /* SimpleOculusTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleOculusTests.m; sourceTree = "<group>"; };
 		D541EBC518944EC900B069F4 /* GLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLView.h; sourceTree = "<group>"; };
 		D541EBC618944EC900B069F4 /* GLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GLView.mm; sourceTree = "<group>"; };
 		D541EBC8189450E300B069F4 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -176,6 +181,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D53E29F918965CB500EBEFA2 /* GLUT.framework in Frameworks */,
 				D53E29F61895F6CC00EBEFA2 /* ApplicationServices.framework in Frameworks */,
 				D53E29F41895F69400EBEFA2 /* IOSurface.framework in Frameworks */,
 				D53E29F21895F69000EBEFA2 /* IOKit.framework in Frameworks */,
@@ -205,7 +211,8 @@
 				D53E29591895F1C200EBEFA2 /* Lib */,
 				D53E295F1895F1C200EBEFA2 /* Src */,
 			);
-			path = LibOVR;
+			name = LibOVR;
+			path = ../LibOVR;
 			sourceTree = "<group>";
 		};
 		D53E29561895F1C200EBEFA2 /* Include */ = {
@@ -365,28 +372,11 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
-		D53E29EA1895F1CA00EBEFA2 /* 3rdParty */ = {
-			isa = PBXGroup;
-			children = (
-				D53E29EB1895F1CA00EBEFA2 /* TinyXml */,
-			);
-			path = 3rdParty;
-			sourceTree = "<group>";
-		};
-		D53E29EB1895F1CA00EBEFA2 /* TinyXml */ = {
-			isa = PBXGroup;
-			children = (
-				D53E29EC1895F1CA00EBEFA2 /* tinyxml2.cpp */,
-				D53E29ED1895F1CA00EBEFA2 /* tinyxml2.h */,
-			);
-			path = TinyXml;
-			sourceTree = "<group>";
-		};
 		D541EB851893C82500B069F4 = {
 			isa = PBXGroup;
 			children = (
-				D541EB971893C82500B069F4 /* BasicGL */,
-				D541EBB51893C82500B069F4 /* BasicGLTests */,
+				D541EB971893C82500B069F4 /* SimpleOculus */,
+				D541EBB51893C82500B069F4 /* SimpleOculusTests */,
 				D541EB901893C82500B069F4 /* Frameworks */,
 				D541EB8F1893C82500B069F4 /* Products */,
 			);
@@ -395,8 +385,8 @@
 		D541EB8F1893C82500B069F4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D541EB8E1893C82500B069F4 /* BasicGL.app */,
-				D541EBAF1893C82500B069F4 /* BasicGLTests.xctest */,
+				D541EB8E1893C82500B069F4 /* SimpleOculus.app */,
+				D541EBAF1893C82500B069F4 /* SimpleOculusTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -404,6 +394,7 @@
 		D541EB901893C82500B069F4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D53E29F818965CB500EBEFA2 /* GLUT.framework */,
 				D53E29F51895F6CC00EBEFA2 /* ApplicationServices.framework */,
 				D53E29F31895F69400EBEFA2 /* IOSurface.framework */,
 				D53E29F11895F69000EBEFA2 /* IOKit.framework */,
@@ -426,48 +417,50 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		D541EB971893C82500B069F4 /* BasicGL */ = {
+		D541EB971893C82500B069F4 /* SimpleOculus */ = {
 			isa = PBXGroup;
 			children = (
 				D541EBA31893C82500B069F4 /* AppDelegate.h */,
 				D541EBA41893C82500B069F4 /* AppDelegate.m */,
 				D541EBC518944EC900B069F4 /* GLView.h */,
 				D541EBC618944EC900B069F4 /* GLView.mm */,
+				D53E29FD18965E4700EBEFA2 /* outside.jpg */,
+				D53E29FA18965CC200EBEFA2 /* Texture.h */,
+				D53E29FB18965CC200EBEFA2 /* Texture.mm */,
 				D541EBD018945C8100B069F4 /* C++ */,
 				D541EBA61893C82500B069F4 /* MainMenu.xib */,
 				D541EBA91893C82500B069F4 /* Images.xcassets */,
-				D53E29EA1895F1CA00EBEFA2 /* 3rdParty */,
 				D53E29551895F1C200EBEFA2 /* LibOVR */,
 				D541EB981893C82500B069F4 /* Supporting Files */,
 			);
-			path = BasicGL;
+			path = SimpleOculus;
 			sourceTree = "<group>";
 		};
 		D541EB981893C82500B069F4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D541EB991893C82500B069F4 /* BasicGL-Info.plist */,
+				D541EB991893C82500B069F4 /* SimpleOculus-Info.plist */,
 				D541EB9A1893C82500B069F4 /* InfoPlist.strings */,
 				D541EB9D1893C82500B069F4 /* main.m */,
-				D541EB9F1893C82500B069F4 /* BasicGL-Prefix.pch */,
+				D541EB9F1893C82500B069F4 /* SimpleOculus-Prefix.pch */,
 				D541EBA01893C82500B069F4 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		D541EBB51893C82500B069F4 /* BasicGLTests */ = {
+		D541EBB51893C82500B069F4 /* SimpleOculusTests */ = {
 			isa = PBXGroup;
 			children = (
-				D541EBBB1893C82500B069F4 /* BasicGLTests.m */,
+				D541EBBB1893C82500B069F4 /* SimpleOculusTests.m */,
 				D541EBB61893C82500B069F4 /* Supporting Files */,
 			);
-			path = BasicGLTests;
+			path = SimpleOculusTests;
 			sourceTree = "<group>";
 		};
 		D541EBB61893C82500B069F4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D541EBB71893C82500B069F4 /* BasicGLTests-Info.plist */,
+				D541EBB71893C82500B069F4 /* SimpleOculusTests-Info.plist */,
 				D541EBB81893C82500B069F4 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -487,9 +480,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D541EB8D1893C82500B069F4 /* BasicGL */ = {
+		D541EB8D1893C82500B069F4 /* SimpleOculus */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D541EBBF1893C82500B069F4 /* Build configuration list for PBXNativeTarget "BasicGL" */;
+			buildConfigurationList = D541EBBF1893C82500B069F4 /* Build configuration list for PBXNativeTarget "SimpleOculus" */;
 			buildPhases = (
 				D541EB8A1893C82500B069F4 /* Sources */,
 				D541EB8B1893C82500B069F4 /* Frameworks */,
@@ -499,14 +492,14 @@
 			);
 			dependencies = (
 			);
-			name = BasicGL;
+			name = SimpleOculus;
 			productName = BasicGL;
-			productReference = D541EB8E1893C82500B069F4 /* BasicGL.app */;
+			productReference = D541EB8E1893C82500B069F4 /* SimpleOculus.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D541EBAE1893C82500B069F4 /* BasicGLTests */ = {
+		D541EBAE1893C82500B069F4 /* SimpleOculusTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D541EBC21893C82500B069F4 /* Build configuration list for PBXNativeTarget "BasicGLTests" */;
+			buildConfigurationList = D541EBC21893C82500B069F4 /* Build configuration list for PBXNativeTarget "SimpleOculusTests" */;
 			buildPhases = (
 				D541EBAB1893C82500B069F4 /* Sources */,
 				D541EBAC1893C82500B069F4 /* Frameworks */,
@@ -517,9 +510,9 @@
 			dependencies = (
 				D541EBB41893C82500B069F4 /* PBXTargetDependency */,
 			);
-			name = BasicGLTests;
+			name = SimpleOculusTests;
 			productName = BasicGLTests;
-			productReference = D541EBAF1893C82500B069F4 /* BasicGLTests.xctest */;
+			productReference = D541EBAF1893C82500B069F4 /* SimpleOculusTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -536,7 +529,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D541EB891893C82500B069F4 /* Build configuration list for PBXProject "BasicGL" */;
+			buildConfigurationList = D541EB891893C82500B069F4 /* Build configuration list for PBXProject "SimpleOculus" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -549,8 +542,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D541EB8D1893C82500B069F4 /* BasicGL */,
-				D541EBAE1893C82500B069F4 /* BasicGLTests */,
+				D541EB8D1893C82500B069F4 /* SimpleOculus */,
+				D541EBAE1893C82500B069F4 /* SimpleOculusTests */,
 			);
 		};
 /* End PBXProject section */
@@ -562,6 +555,7 @@
 			files = (
 				D541EB9C1893C82500B069F4 /* InfoPlist.strings in Resources */,
 				D541EBAA1893C82500B069F4 /* Images.xcassets in Resources */,
+				D53E29FE18965E4700EBEFA2 /* outside.jpg in Resources */,
 				D541EBA21893C82500B069F4 /* Credits.rtf in Resources */,
 				D541EBA81893C82500B069F4 /* MainMenu.xib in Resources */,
 			);
@@ -585,6 +579,7 @@
 				D541EBA51893C82500B069F4 /* AppDelegate.m in Sources */,
 				D541EBCC1894526A00B069F4 /* GLRenderer.mm in Sources */,
 				D541EBD318945CC200B069F4 /* BasicRenderer.mm in Sources */,
+				D53E29FC18965CC200EBEFA2 /* Texture.mm in Sources */,
 				D541EB9E1893C82500B069F4 /* main.m in Sources */,
 				D541EBC718944EC900B069F4 /* GLView.mm in Sources */,
 			);
@@ -594,7 +589,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D541EBBC1893C82500B069F4 /* BasicGLTests.m in Sources */,
+				D541EBBC1893C82500B069F4 /* SimpleOculusTests.m in Sources */,
 				D541EBCD1894542100B069F4 /* GLRenderer.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -604,7 +599,7 @@
 /* Begin PBXTargetDependency section */
 		D541EBB41893C82500B069F4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D541EB8D1893C82500B069F4 /* BasicGL */;
+			target = D541EB8D1893C82500B069F4 /* SimpleOculus */;
 			targetProxy = D541EBB31893C82500B069F4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -723,20 +718,21 @@
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "BasicGL/BasicGL-Prefix.pch";
+				GCC_PREFIX_HEADER = "SimpleOculus/SimpleOculus-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					../BasicGL/BasicGL/LibOVR/Src,
+					LibOVR/Src,
+					LibOVR/Include,
 				);
-				INFOPLIST_FILE = "BasicGL/BasicGL-Info.plist";
+				INFOPLIST_FILE = "SimpleOculus/SimpleOculus-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					../BasicGL/BasicGL/LibOVR/Lib/MacOS/Debug,
+					LibOVR/Lib/MacOS/Debug,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SimpleOculus;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -751,19 +747,20 @@
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "BasicGL/BasicGL-Prefix.pch";
+				GCC_PREFIX_HEADER = "SimpleOculus/SimpleOculus-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					../BasicGL/BasicGL/LibOVR/Src,
+					LibOVR/Src,
+					LibOVR/Include,
 				);
-				INFOPLIST_FILE = "BasicGL/BasicGL-Info.plist";
+				INFOPLIST_FILE = "SimpleOculus/SimpleOculus-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					../BasicGL/BasicGL/LibOVR/Lib/MacOS/Release,
+					LibOVR/Lib/MacOS/Release,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SimpleOculus;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -772,7 +769,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/BasicGL.app/Contents/MacOS/BasicGL";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SimpleOculus.app/Contents/MacOS/SimpleOculus";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -780,16 +777,16 @@
 				);
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "BasicGL/BasicGL-Prefix.pch";
+				GCC_PREFIX_HEADER = "SimpleOculus/SimpleOculus-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "BasicGLTests/BasicGLTests-Info.plist";
+				INFOPLIST_FILE = "SimpleOculusTests/SimpleOculusTests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SimpleOculusTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -799,7 +796,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/BasicGL.app/Contents/MacOS/BasicGL";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SimpleOculus.app/Contents/MacOS/SimpleOculus";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -807,12 +804,12 @@
 				);
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "BasicGL/BasicGL-Prefix.pch";
-				INFOPLIST_FILE = "BasicGLTests/BasicGLTests-Info.plist";
+				GCC_PREFIX_HEADER = "SimpleOculus/SimpleOculus-Prefix.pch";
+				INFOPLIST_FILE = "SimpleOculusTests/SimpleOculusTests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SimpleOculusTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -821,7 +818,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D541EB891893C82500B069F4 /* Build configuration list for PBXProject "BasicGL" */ = {
+		D541EB891893C82500B069F4 /* Build configuration list for PBXProject "SimpleOculus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D541EBBD1893C82500B069F4 /* Debug */,
@@ -830,7 +827,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D541EBBF1893C82500B069F4 /* Build configuration list for PBXNativeTarget "BasicGL" */ = {
+		D541EBBF1893C82500B069F4 /* Build configuration list for PBXNativeTarget "SimpleOculus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D541EBC01893C82500B069F4 /* Debug */,
@@ -839,7 +836,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D541EBC21893C82500B069F4 /* Build configuration list for PBXNativeTarget "BasicGLTests" */ = {
+		D541EBC21893C82500B069F4 /* Build configuration list for PBXNativeTarget "SimpleOculusTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D541EBC31893C82500B069F4 /* Debug */,

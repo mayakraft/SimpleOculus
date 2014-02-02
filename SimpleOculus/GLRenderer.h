@@ -1,13 +1,13 @@
 //
 //  GLRenderer.h
-//  BasicGL
+//  SimpleOculus
 //
 //  Created by Robby Kraft on 1/25/14.
 //  Copyright (c) 2014 Robby Kraft. All rights reserved.
 //
 
-#ifndef __BasicGL__GLRenderer__
-#define __BasicGL__GLRenderer__
+#ifndef __SimpleOculus__GLRenderer__
+#define __SimpleOculus__GLRenderer__
 
 #include <iostream>
 
@@ -22,4 +22,4 @@ protected:
     void flush();
 };
 
-#endif /* defined(__BasicGL__GLRenderer__) */
+#endif /* defined(__SimpleOculus__GLRenderer__) */

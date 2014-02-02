@@ -1,6 +1,6 @@
 //
-//  BasicGLTests.m
-//  BasicGLTests
+//  SimpleOculusTests.m
+//  SimpleOculusTests
 //
 //  Created by Robby Kraft on 1/25/14.
 //  Copyright (c) 2014 Robby Kraft. All rights reserved.
@@ -8,11 +8,11 @@
 
 #import <XCTest/XCTest.h>
 
-@interface BasicGLTests : XCTestCase
+@interface SimpleOculusTests : XCTestCase
 
 @end
 
-@implementation BasicGLTests
+@implementation SimpleOculusTests
 
 - (void)setUp
 {

@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:BasicGL.xcodeproj">
+      location = "self:SimpleOculus.xcodeproj">
    </FileRef>
 </Workspace>
