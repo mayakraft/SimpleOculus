@@ -10,16 +10,16 @@
 #define __SimpleOculus__BasicRenderer__
 
 #include <iostream>
-#include "GLRenderer.h"
+#include "GLScene.h"
 
-class BasicRenderer : GLRenderer
+class BasicRenderer : GLScene
 {
 public:
     virtual void init();
     virtual void update();
     virtual void render();
     
-    float matrix[16];
+    float viewOrientation[16];
     
 private:
     float shift;

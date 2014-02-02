@@ -74,22 +74,15 @@ void BasicRenderer::drawSphere(){
 	
     glLoadIdentity();
 
-
-
-//    glMultMatrixf(matrix);
+//    glMultMatrixf(viewOrientation);
 //         glRotatef(90, 0.0, 1.0, 0.0);
 //    glRotatef(-90.0, 1.0, 0.0, 0.0);
     
 	quadric = gluNewQuadric();
-    //	if (wireframe)
-    //		gluQuadricDrawStyle(quadric, GLU_LINE);
+//	if (wireframe)
+//		gluQuadricDrawStyle(quadric, GLU_LINE);
 	
 	gluQuadricTexture(quadric, GL_TRUE);
-    //	glMaterialfv(GL_FRONT, GL_AMBIENT, materialAmbient);
-    //	glMaterialfv(GL_FRONT, GL_DIFFUSE, materialDiffuse);
-    //	glRotatef(rollAngle, 1.0, 0.0, 0.0);
-    //	glRotatef(-23.45, 0.0, 0.0, 1.0); // Earth's axial tilt is 23.45 degrees from the plane of the ecliptic
-    //	glRotatef(animationPhase * 360.0, 0.0, 1.0, 0.0);
 	gluSphere(quadric, radius, 48, 24);
 	gluDeleteQuadric(quadric);
 	quadric = NULL;

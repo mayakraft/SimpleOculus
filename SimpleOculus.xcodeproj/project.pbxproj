@@ -28,9 +28,10 @@
 		D541EBBC1893C82500B069F4 /* SimpleOculusTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D541EBBB1893C82500B069F4 /* SimpleOculusTests.m */; };
 		D541EBC718944EC900B069F4 /* GLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = D541EBC618944EC900B069F4 /* GLView.mm */; };
 		D541EBC9189450E300B069F4 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D541EBC8189450E300B069F4 /* OpenGL.framework */; };
-		D541EBCC1894526A00B069F4 /* GLRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = D541EBCA1894526A00B069F4 /* GLRenderer.mm */; };
-		D541EBCD1894542100B069F4 /* GLRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = D541EBCA1894526A00B069F4 /* GLRenderer.mm */; };
+		D541EBCC1894526A00B069F4 /* GLScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = D541EBCA1894526A00B069F4 /* GLScene.mm */; };
+		D541EBCD1894542100B069F4 /* GLScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = D541EBCA1894526A00B069F4 /* GLScene.mm */; };
 		D541EBD318945CC200B069F4 /* BasicRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = D541EBD118945CC200B069F4 /* BasicRenderer.mm */; };
+		D592CBB3189DD78D00E072EB /* OculusInterface.mm in Sources */ = {isa = PBXBuildFile; fileRef = D592CBB2189DD78D00E072EB /* OculusInterface.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -170,10 +171,12 @@
 		D541EBC518944EC900B069F4 /* GLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLView.h; sourceTree = "<group>"; };
 		D541EBC618944EC900B069F4 /* GLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GLView.mm; sourceTree = "<group>"; };
 		D541EBC8189450E300B069F4 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		D541EBCA1894526A00B069F4 /* GLRenderer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GLRenderer.mm; sourceTree = "<group>"; };
-		D541EBCB1894526A00B069F4 /* GLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLRenderer.h; sourceTree = "<group>"; };
+		D541EBCA1894526A00B069F4 /* GLScene.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GLScene.mm; sourceTree = "<group>"; };
+		D541EBCB1894526A00B069F4 /* GLScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLScene.h; sourceTree = "<group>"; };
 		D541EBD118945CC200B069F4 /* BasicRenderer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BasicRenderer.mm; sourceTree = "<group>"; };
 		D541EBD218945CC200B069F4 /* BasicRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicRenderer.h; sourceTree = "<group>"; };
+		D592CBB1189DD78D00E072EB /* OculusInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OculusInterface.h; sourceTree = "<group>"; };
+		D592CBB2189DD78D00E072EB /* OculusInterface.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OculusInterface.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -424,13 +427,14 @@
 				D541EBA41893C82500B069F4 /* AppDelegate.m */,
 				D541EBC518944EC900B069F4 /* GLView.h */,
 				D541EBC618944EC900B069F4 /* GLView.mm */,
+				D592CBB1189DD78D00E072EB /* OculusInterface.h */,
+				D592CBB2189DD78D00E072EB /* OculusInterface.mm */,
 				D53E29FD18965E4700EBEFA2 /* outside.jpg */,
-				D53E29FA18965CC200EBEFA2 /* Texture.h */,
-				D53E29FB18965CC200EBEFA2 /* Texture.mm */,
 				D541EBD018945C8100B069F4 /* C++ */,
 				D541EBA61893C82500B069F4 /* MainMenu.xib */,
 				D541EBA91893C82500B069F4 /* Images.xcassets */,
 				D53E29551895F1C200EBEFA2 /* LibOVR */,
+				D592CBB0189DD25600E072EB /* Apple */,
 				D541EB981893C82500B069F4 /* Supporting Files */,
 			);
 			path = SimpleOculus;
@@ -469,12 +473,21 @@
 		D541EBD018945C8100B069F4 /* C++ */ = {
 			isa = PBXGroup;
 			children = (
-				D541EBCB1894526A00B069F4 /* GLRenderer.h */,
-				D541EBCA1894526A00B069F4 /* GLRenderer.mm */,
+				D541EBCB1894526A00B069F4 /* GLScene.h */,
+				D541EBCA1894526A00B069F4 /* GLScene.mm */,
 				D541EBD218945CC200B069F4 /* BasicRenderer.h */,
 				D541EBD118945CC200B069F4 /* BasicRenderer.mm */,
 			);
 			name = "C++";
+			sourceTree = "<group>";
+		};
+		D592CBB0189DD25600E072EB /* Apple */ = {
+			isa = PBXGroup;
+			children = (
+				D53E29FA18965CC200EBEFA2 /* Texture.h */,
+				D53E29FB18965CC200EBEFA2 /* Texture.mm */,
+			);
+			name = Apple;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -577,9 +590,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D541EBA51893C82500B069F4 /* AppDelegate.m in Sources */,
-				D541EBCC1894526A00B069F4 /* GLRenderer.mm in Sources */,
+				D541EBCC1894526A00B069F4 /* GLScene.mm in Sources */,
 				D541EBD318945CC200B069F4 /* BasicRenderer.mm in Sources */,
 				D53E29FC18965CC200EBEFA2 /* Texture.mm in Sources */,
+				D592CBB3189DD78D00E072EB /* OculusInterface.mm in Sources */,
 				D541EB9E1893C82500B069F4 /* main.m in Sources */,
 				D541EBC718944EC900B069F4 /* GLView.mm in Sources */,
 			);
@@ -590,7 +604,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D541EBBC1893C82500B069F4 /* SimpleOculusTests.m in Sources */,
-				D541EBCD1894542100B069F4 /* GLRenderer.mm in Sources */,
+				D541EBCD1894542100B069F4 /* GLScene.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

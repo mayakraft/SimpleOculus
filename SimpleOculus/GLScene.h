@@ -1,17 +1,17 @@
 //
-//  GLRenderer.h
+//  GLScene.h
 //  SimpleOculus
 //
 //  Created by Robby Kraft on 1/25/14.
 //  Copyright (c) 2014 Robby Kraft. All rights reserved.
 //
 
-#ifndef __SimpleOculus__GLRenderer__
-#define __SimpleOculus__GLRenderer__
+#ifndef __SimpleOculus__GLScene__
+#define __SimpleOculus__GLScene__
 
 #include <iostream>
 
-class GLRenderer
+class GLScene
 {
 public:
     virtual void init() = 0;
@@ -22,4 +22,4 @@ protected:
     void flush();
 };
 
-#endif /* defined(__SimpleOculus__GLRenderer__) */
+#endif /* defined(__SimpleOculus__GLGLScene__) */
