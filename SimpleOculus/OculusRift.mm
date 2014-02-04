@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Robby Kraft. All rights reserved.
 //
 
-#import "OculusInterface.h"
+#import "OculusRift.h"
 #include "OVR.h"
 #include <iostream.h>
 #include <stdio.h>
@@ -14,29 +14,29 @@
 using namespace OVR;
 using namespace std;
 
-@interface OculusInterface (){
+@interface OculusRift (){
     Ptr<DeviceManager>	pManager;
     Ptr<HMDDevice>		pHMD;
     Ptr<SensorDevice>	pSensor;
     SensorFusion*		pFusionResult;
     HMDInfo             Info;
     bool                InfoLoaded;
-//    Matrix4f rotation;
 }
 
 @end
 
-@implementation OculusInterface
+@implementation OculusRift
 
 -(id) init{
     self = [super init];
     if(self){
-        _headsetOrientation = (float*)malloc(sizeof(float)*16);
+        _orientation = (float*)malloc(sizeof(float)*16);
+        [self initOculus];
     }
     return self;
 }
 
--(bool) initOculus{
+-(void) initOculus{
     System::Init();
     
     pFusionResult = new SensorFusion();
@@ -54,50 +54,47 @@ using namespace std;
     }
     [self LogOculus];
     [NSTimer scheduledTimerWithTimeInterval:1./60. target:self selector:@selector(updateOculus) userInfo:Nil repeats:YES];
-    return true;  // TODO
 }
 
 -(void) updateOculus{
+
     if(pSensor){
 		Quatf quaternion = pFusionResult->GetOrientation();
-        
 		float yaw, pitch, roll;
 		quaternion.GetEulerAngles<Axis_Y, Axis_X, Axis_Z>(&yaw, &pitch, &roll);
-        
 //		cout << " Yaw: " << RadToDegree(yaw) <<
 //        ", Pitch: " << RadToDegree(pitch) <<
 //        ", Roll: " << RadToDegree(roll) << endl;
-        Matrix4f mat = [self identityMatrix];//[self getRotationMatrix:quaternion];
-        _headsetOrientation[0] = mat.M[0][0];
-        _headsetOrientation[1] = mat.M[0][1];
-        _headsetOrientation[2] = mat.M[0][2];
-        _headsetOrientation[3] = mat.M[0][3];
-        _headsetOrientation[4] = mat.M[1][0];
-        _headsetOrientation[5] = mat.M[1][1];
-        _headsetOrientation[6] = mat.M[1][2];
-        _headsetOrientation[7] = mat.M[1][3];
-        _headsetOrientation[8] = mat.M[2][0];
-        _headsetOrientation[9] = mat.M[2][1];
-        _headsetOrientation[10] = mat.M[2][2];
-        _headsetOrientation[11] = mat.M[2][3];
-        _headsetOrientation[12] = mat.M[3][0];
-        _headsetOrientation[13] = mat.M[3][1];
-        _headsetOrientation[14] = mat.M[3][2];
-        _headsetOrientation[15] = mat.M[3][3];
-//        NSLog(@"\n%f %f %f\n%f %f %f\n%f %f %f",
-//              mat.M[0][0],mat.M[0][1],mat.M[0][2],
-//              mat.M[1][0],mat.M[1][1],mat.M[1][2],
-//              mat.M[2][0],mat.M[2][1],mat.M[2][2]);
+        Matrix4f mat = [self getRotationMatrix:quaternion]; //[self identityMatrix];//
+        _orientation[0] = mat.M[0][0];
+        _orientation[1] = mat.M[1][0];
+        _orientation[2] = mat.M[2][0];
+        _orientation[3] = mat.M[3][0];
+        _orientation[4] = mat.M[0][1];
+        _orientation[5] = mat.M[1][1];
+        _orientation[6] = mat.M[2][1];
+        _orientation[7] = mat.M[3][1];
+        _orientation[8] = mat.M[0][2];
+        _orientation[9] = mat.M[1][2];
+        _orientation[10] = mat.M[2][2];
+        _orientation[11] = mat.M[3][2];
+        _orientation[12] = mat.M[0][3];
+        _orientation[13] = mat.M[1][3];
+        _orientation[14] = mat.M[2][3];
+        _orientation[15] = mat.M[3][3];
 	}
 }
+
 -(void) closeOculus{
 	pSensor.Clear();
     pHMD.Clear();
 	pManager.Clear();
-    
 	delete pFusionResult;
-    
 	System::Destroy();
+}
+
+-(void) dealloc{
+    [self closeOculus];
 }
 
 -(void) LogOculus {

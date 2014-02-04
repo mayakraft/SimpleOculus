@@ -10,16 +10,24 @@
 #define __SimpleOculus__GLScene__
 
 #include <iostream>
+#import "Texture.h"
 
 class GLScene
 {
 public:
-    virtual void init() = 0;
-    virtual void render() = 0;
-    virtual void update() = 0;
-protected:
-    void clear(float r=0, float g=0, float b=0, float a=1, bool depth=true);
-    void flush();
+    virtual void init();
+    virtual void update();
+    virtual void render();
+    
+    float orientation[16];  // orientation matrix
+    
+private:
+    void draw_triangles();
+    void drawPanorama();
+    void drawSquares();
+    
+    Texture *texture;
+	GLuint textureName;
 };
 
-#endif /* defined(__SimpleOculus__GLGLScene__) */
+#endif /* defined(__SimpleOculus__GLScene__) */

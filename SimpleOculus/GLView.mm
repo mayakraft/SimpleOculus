@@ -7,218 +7,174 @@
 //
 
 #import "GLView.h"
-#include "BasicRenderer.h"
-
-#define Z_NEAR 0.1f
-#define Z_FAR 10.0f
+#import "OculusRift.h"
+#include "GLScene.h"
 
 @interface GLView (){
+    OculusRift *oculusRift;
     NSTimer *renderTimer;
-    BasicRenderer renderer;
+    GLScene scene;
     int w, h;
-    float _fieldOfView, frustum, _aspectRatio;
+    bool isFullscreen;
+    NSRect windowRect;
 }
 
 @end
 
 @implementation GLView
-//- (void)clearGLContext{}
-//- (void)update{}		// moved or resized
-//- (void)reshape{}	// scrolled, moved or resized
 
 -(id)initWithCoder:(NSCoder *)aDecoder{
     self = [super initWithCoder:aDecoder];
     if(self){
-        NSLog(@"init");
-        
+        NSLog(@"initWithCoder");
         NSOpenGLContext *glcontext = [self openGLContext];
         [glcontext makeCurrentContext];
-
-        [self setupRenderTimer];
+        oculusRift = [[OculusRift alloc] init];
     }
     return self;
-}
-
-- (id)initWithFrame:(NSRect)frameRect pixelFormat:(NSOpenGLPixelFormat*)format {
-    self = [super initWithFrame:frameRect pixelFormat:format];
-    if (self) {
-        NSLog(@"initWithFrame pixelFormat");
-        // Initialization code here.
-        [self wantsBestResolutionOpenGLSurface];
-    }
-    return self;
-}
-
-- (id)initWithFrame:(NSRect)frame{
-    self = [super initWithFrame:frame];
-    if (self) {
-        NSLog(@"initWithFrame");
-        // Initialization code here.
-        [self wantsBestResolutionOpenGLSurface];
-    }
-    return self;
-}
-
-- (void)reshape
-{
-	NSLog(@"reshaping");
-	
-	//Get view dimensions
-	NSRect baseRect = [self convertRectToBase:[self bounds]];
-	w = baseRect.size.width;
-	h = baseRect.size.height;
-	
-	//Add your OpenGL resize code here
-    
-    _fieldOfView = M_PI/2.;
-    _aspectRatio = (float)w/(float)h;
-    glViewport(0, 0, w, h);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    frustum = Z_NEAR * tanf(_fieldOfView / 2.0);
-    glFrustum(-frustum, frustum, -frustum/_aspectRatio, frustum/_aspectRatio, Z_NEAR, Z_FAR);
-    //glFrustum(-0.1, 0.1, -(float)(h)/(10.0*(float)(w)), (float)(h)/(10.0*(float)(w)), 0.5, 1000.0);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    
-    renderer.init();
-   
-}
-
--(void) update{
-//    NSLog(@"prepareOpenGL");
-//    GLint swapInt = 1;
-//  [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
-    NSLog(@"update");
-//    [self setNeedsDisplay:true];
-    // Oculus
-//    [self initOculus];
-//    [self closeOculus];
-}
-
-- (void) setupRenderTimer
-{
-    NSTimeInterval timeInterval = 0.005;
-    
-    renderTimer =  [ NSTimer scheduledTimerWithTimeInterval:timeInterval target:self
-                                                   selector:@selector( update )
-                                                   userInfo:nil repeats:YES ];
-    [ [ NSRunLoop currentRunLoop ] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode ];
-    [ [ NSRunLoop currentRunLoop ] addTimer:renderTimer forMode:NSModalPanelRunLoopMode ];
-}
-
-
-/*
- * Called by the rendering timer.
- */
-- (void) updateGLView:(NSTimer *)timer
-{
-    [self setNeedsDisplay:true];
-//    if( glView != nil )
-//        [ glView drawRect:[ glView frame ] ];
 }
 
 -(void) awakeFromNib{
-//    NSLog(@"awakeFromNib");
-    renderTimer = [NSTimer timerWithTimeInterval:0.001 target:self selector:@selector(timerFired:) userInfo:Nil repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSDefaultRunLoopMode];
-    [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode];
+    NSLog(@"awakeFromNib");
+    [self setupRenderTimer];
 }
 
--(void) timerFired:(id)sender{
-//    NSLog(@"timerFired");
-    renderer.update();
-    [self setNeedsDisplay:YES];
+- (void)reshape{ 	// scrolled, moved or resized
+	NSRect baseRect = [self convertRectToBase:[self bounds]];
+	w = baseRect.size.width;
+	h = baseRect.size.height;
+    NSLog(@"reshape() (%d, %d)", w, h);
+    [[self openGLContext] update];
+}
+
+-(void) update{  		// moved or resized
+    NSLog(@"update");
+//  [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
+}
+
+- (void) setupRenderTimer{
+    if(!renderTimer){
+        scene.init();
+        
+        renderTimer = [NSTimer scheduledTimerWithTimeInterval:.005 target:self selector:@selector(updateGLView:) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode];
+        [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSModalPanelRunLoopMode];
+//        [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSDefaultRunLoopMode];
+    }
+}
+
+-(void)keyDown:(NSEvent *)theEvent
+{
+    NSString *characters = [theEvent characters];
+    if ([characters length]) {
+        unichar character = [characters characterAtIndex:0];
+		switch (character) {
+			case 'f':
+				NSLog(@"f");
+                [self toggleFullscreen];
+				break;
+		}
+	}
+}
+
+- (BOOL)acceptsFirstResponder{
+    return YES;
+}
+- (BOOL)becomeFirstResponder{
+    return  YES;
+}
+- (BOOL)resignFirstResponder{
+    return YES;
+}
+
+- (void) updateGLView:(NSTimer *)timer{
+    scene.update();
+//    NSLog(@"%f",oculusInterface.headsetOrientation[2]);
+    [self sendOrientation];
+    [self setNeedsDisplay:true];
 }
 
 - (void)drawRect:(NSRect)dirtyRect{
-    NSLog(@"drawRect");
-//    NSLog(@"drawRect");
-//    NSRect backingBounds = [self convertRectToBacking:[self bounds]];
-//	glViewport(0, 0, w, h);//backingBounds.size.width, backingBounds.size.height);
 
-    // normal mode
-    if(0){
-        glViewport(0, 0, w, h);
-        renderer.render();
-    }
-    else
-    {
-        // right
-        glViewport(0, 0, w/2., h);
+    glClear (GL_COLOR_BUFFER_BIT);
+
+    for(int eye = 0; eye < 2; eye++){  // 0 left, 1 right
+//        glColor3ub(255,255,255);  // color overlay
+        if(eye == 0){
+            glViewport (0, 0, w/2., h);
+            glMatrixMode (GL_PROJECTION);
+            glLoadIdentity ();
+            [self glPerspective:75.0f Aspect:(GLfloat)(w/2.)/(GLfloat)(h) Near:.1f Far:100.0f];
+        }
+        else if (eye == 1){
+            glViewport (w/2., 0, w/2., h);
+            glMatrixMode (GL_PROJECTION);
+            glLoadIdentity ();
+            [self glPerspective:75.0f Aspect:(GLfloat)(w/2.)/(GLfloat)(h) Near:.1f Far:100.0f];
+        }
+        glMatrixMode (GL_MODELVIEW);
         glLoadIdentity ();
-//        gluLookAt(5.0f, 5.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-        renderer.render();
-
-        // left
-        glViewport(w/2., 0, w/2., h);
-        glLoadIdentity();
-//        gluLookAt (5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-        renderer.render();
+        glClear (GL_DEPTH_BUFFER_BIT); 
+        
+        if(eye == 0){ // left
+            glTranslatef(0.01f, 0.0f, 0.0f);
+        }
+        else if (eye == 1){
+            glTranslatef(-0.01f, 0.0f, 0.0f);
+        }
+        scene.render();
     }
-    
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    _fieldOfView = M_PI/2.;
-    frustum = Z_NEAR * tanf(_fieldOfView / 2.0);
-    _aspectRatio = (float)w/(float)h;
-    glFrustum(-frustum, frustum, -frustum/_aspectRatio, frustum/_aspectRatio, Z_NEAR, Z_FAR);
-    //glFrustum(-0.1, 0.1, -(float)(h)/(10.0*(float)(w)), (float)(h)/(10.0*(float)(w)), 0.5, 1000.0);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    
-//    [[self openGLContext] flushBuffer];
+    glFlush();
 }
 
-//- (void) awakeFromNib
-//{
-//    [ NSApp setDelegate:self ];   // We want delegate notifications
-//    renderTimer = nil;
-//    //[self makeFirstResponder:self ];
-//    glView = [ [ MyOpenGLView alloc ] initWithFrame:[ self.myGLview frame ]
-//                                          colorBits:16 depthBits:16 fullscreen:FALSE ];
-//    if( glView != nil )
-//    {
-//        [ self.window.contentView addSubview:glView ];
-//        [ self.window makeKeyAndOrderFront:self ];
-//        [ self setupRenderTimer ];
-//    }
-//    else
-//        [ self createFailed ];
-//}
+// replacement for gluPerspective from NEHE
+-(void) glPerspective:(GLdouble)fovY Aspect:(GLdouble)aspect Near:(GLdouble)zNear Far:(GLdouble) zFar{
+    const GLdouble pi = 3.14159265359;
+    GLdouble fW, fH;
+    fH = tan(fovY/360.*pi) * zNear;
+    fW = fH * aspect;
+    glFrustum(-fW, fW, -fH, fH, zNear, zFar);
+}
 
-//-(void) updateOculus{
-//    if(pSensor){
-//		Quatf quaternion = pFusionResult->GetOrientation();
-//        
-//		float yaw, pitch, roll;
-//		quaternion.GetEulerAngles<Axis_Y, Axis_X, Axis_Z>(&yaw, &pitch, &roll);
-//        
-//        //		cout << " Yaw: " << RadToDegree(yaw) <<
-//        //        ", Pitch: " << RadToDegree(pitch) <<
-//        //        ", Roll: " << RadToDegree(roll) << endl;
-//        Matrix4f mat = [self identityMatrix];//[self getRotationMatrix:quaternion];
-//        renderer.orientation[0] = mat.M[0][0];
-//        renderer.orientation[1] = mat.M[0][1];
-//        renderer.orientation[2] = mat.M[0][2];
-//        renderer.orientation[3] = mat.M[0][3];
-//        renderer.orientation[4] = mat.M[1][0];
-//        renderer.orientation[5] = mat.M[1][1];
-//        renderer.orientation[6] = mat.M[1][2];
-//        renderer.orientation[7] = mat.M[1][3];
-//        renderer.orientation[8] = mat.M[2][0];
-//        renderer.orientation[9] = mat.M[2][1];
-//        renderer.orientation[10] = mat.M[2][2];
-//        renderer.orientation[11] = mat.M[2][3];
-//        renderer.orientation[12] = mat.M[3][0];
-//        renderer.orientation[13] = mat.M[3][1];
-//        renderer.orientation[14] = mat.M[3][2];
-//        renderer.orientation[15] = mat.M[3][3];
-//        //        NSLog(@"\n%f %f %f\n%f %f %f\n%f %f %f",
-//        //              mat.M[0][0],mat.M[0][1],mat.M[0][2],
-//        //              mat.M[1][0],mat.M[1][1],mat.M[1][2],
-//        //              mat.M[2][0],mat.M[2][1],mat.M[2][2]);
-//	}
-//}
+-(void) sendOrientation{
+    for(int i = 0; i < 16; i++)
+        scene.orientation[i] = oculusRift.orientation[i];
+}
+
+-(void)activateFullScreen{
+    NSRect mainDisplayRect = [[NSScreen mainScreen] frame];
+    w = mainDisplayRect.size.width;
+    h = mainDisplayRect.size.height;
+    [self setFrame:mainDisplayRect];
+}
+
+- (void)toggleFullscreen
+{
+    NSWindow *mainWindow = [self window];
+    if (isFullscreen) {
+        [mainWindow setLevel:NSNormalWindowLevel];
+        [mainWindow makeKeyWindow];
+        [mainWindow makeFirstResponder:self];
+        [mainWindow setStyleMask:NSTitledWindowMask | NSClosableWindowMask |
+                                 NSMiniaturizableWindowMask | NSResizableWindowMask ];
+        [mainWindow setFrame:windowRect display:true];
+        [mainWindow setAcceptsMouseMovedEvents:YES];
+        [mainWindow setTitle:@"SimpleOculus"];
+        isFullscreen = false;
+    } else {
+        // before leaving, store last window position/size
+        windowRect = [self convertRectToBase:[self bounds]];
+        NSRect fullscreenFrame = [[NSScreen mainScreen] frame];
+        w = fullscreenFrame.size.width;
+        h = fullscreenFrame.size.height;
+        [mainWindow setStyleMask:NSBorderlessWindowMask];
+        [mainWindow setFrame:fullscreenFrame display:true];
+        [mainWindow setAcceptsMouseMovedEvents:YES];
+        [mainWindow makeKeyAndOrderFront:self];
+        [mainWindow setLevel:NSScreenSaverWindowLevel-1];
+        [mainWindow makeFirstResponder:self];
+        isFullscreen = true;
+    }
+}
 
 @end
