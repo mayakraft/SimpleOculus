@@ -8,6 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface GLView : NSOpenGLView
+@interface OculusView: NSOpenGLView
 
 @end

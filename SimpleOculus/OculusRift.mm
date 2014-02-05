@@ -31,6 +31,7 @@ using namespace std;
     self = [super init];
     if(self){
         _orientation = (float*)malloc(sizeof(float)*16);
+        _IPD = .08f;    // .08 works well for full-screen in 1280x800
         [self initOculus];
     }
     return self;
@@ -62,10 +63,7 @@ using namespace std;
 		Quatf quaternion = pFusionResult->GetOrientation();
 		float yaw, pitch, roll;
 		quaternion.GetEulerAngles<Axis_Y, Axis_X, Axis_Z>(&yaw, &pitch, &roll);
-//		cout << " Yaw: " << RadToDegree(yaw) <<
-//        ", Pitch: " << RadToDegree(pitch) <<
-//        ", Roll: " << RadToDegree(roll) << endl;
-        Matrix4f mat = [self getRotationMatrix:quaternion]; //[self identityMatrix];//
+        Matrix4f mat = [self getRotationMatrix:quaternion];
         _orientation[0] = mat.M[0][0];
         _orientation[1] = mat.M[1][0];
         _orientation[2] = mat.M[2][0];
@@ -138,15 +136,13 @@ using namespace std;
 	}
 }
 
--(Matrix4f) identityMatrix
-{
-    Matrix4f _mat;
-    _mat.M[0][0] = 1.0; _mat.M[1][0] = 0.0; _mat.M[2][0] = 0.0; _mat.M[3][0] = 0.0;
-    _mat.M[0][1] = 0.0; _mat.M[1][1] = 1.0; _mat.M[2][1] = 0.0; _mat.M[3][1] = 0.0;
-    _mat.M[0][2] = 0.0; _mat.M[1][2] = 0.0; _mat.M[2][2] = 1.0; _mat.M[3][2] = 0.0;
-    _mat.M[0][3] = 0.0; _mat.M[1][3] = 0.0; _mat.M[2][3] = 0.0; _mat.M[3][3] = 1.0;
-    return _mat;
-}
+// consider
+// static Matrix4f LookAtRH(const Vector3f& eye, const Vector3f& at, const Vector3f& up);
+// or
+// static Matrix4f LookAtLH(const Vector3f& eye, const Vector3f& at, const Vector3f& up);
+// to replace below
+
+//  quat to matrix conversion from OpenSceneGraph (C) 1998-2006 Robert Osfield
 -(Matrix4f) getRotationMatrix:(const Quatf)q
 {
     Matrix4f _mat;
@@ -226,8 +222,5 @@ using namespace std;
 #endif
     return _mat;
 }
-
-
-
 
 @end

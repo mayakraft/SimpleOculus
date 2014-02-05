@@ -6,123 +6,92 @@
 //  Copyright (c) 2014 Robby Kraft. All rights reserved.
 //
 
-#import "GLView.h"
+#import "OculusView.h"
 #import "OculusRift.h"
 #include "GLScene.h"
 
-@interface GLView (){
+#define INCREMENT .005f
+
+@interface OculusView (){
     OculusRift *oculusRift;
-    NSTimer *renderTimer;
     GLScene scene;
-    int w, h;
-    bool isFullscreen;
+    NSTimer *renderTimer;
     NSRect windowRect;
+    bool isFullscreen;
+    int w, h;
 }
 
 @end
 
-@implementation GLView
+@implementation OculusView
 
 -(id)initWithCoder:(NSCoder *)aDecoder{
     self = [super initWithCoder:aDecoder];
     if(self){
-        NSLog(@"initWithCoder");
         NSOpenGLContext *glcontext = [self openGLContext];
         [glcontext makeCurrentContext];
-        oculusRift = [[OculusRift alloc] init];
     }
     return self;
 }
 
 -(void) awakeFromNib{
-    NSLog(@"awakeFromNib");
+    oculusRift = [[OculusRift alloc] init];
     [self setupRenderTimer];
+    scene.init();
 }
 
-- (void)reshape{ 	// scrolled, moved or resized
+- (void)reshape{                            // window scrolled, moved or resized
 	NSRect baseRect = [self convertRectToBase:[self bounds]];
 	w = baseRect.size.width;
 	h = baseRect.size.height;
-    NSLog(@"reshape() (%d, %d)", w, h);
     [[self openGLContext] update];
 }
 
--(void) update{  		// moved or resized
-    NSLog(@"update");
-//  [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
+-(void) update{                             // window moved or resized
 }
 
 - (void) setupRenderTimer{
     if(!renderTimer){
-        scene.init();
-        
         renderTimer = [NSTimer scheduledTimerWithTimeInterval:.005 target:self selector:@selector(updateGLView:) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode];
         [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSModalPanelRunLoopMode];
-//        [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSDefaultRunLoopMode];
     }
-}
-
--(void)keyDown:(NSEvent *)theEvent
-{
-    NSString *characters = [theEvent characters];
-    if ([characters length]) {
-        unichar character = [characters characterAtIndex:0];
-		switch (character) {
-			case 'f':
-				NSLog(@"f");
-                [self toggleFullscreen];
-				break;
-		}
-	}
-}
-
-- (BOOL)acceptsFirstResponder{
-    return YES;
-}
-- (BOOL)becomeFirstResponder{
-    return  YES;
-}
-- (BOOL)resignFirstResponder{
-    return YES;
 }
 
 - (void) updateGLView:(NSTimer *)timer{
     scene.update();
-//    NSLog(@"%f",oculusInterface.headsetOrientation[2]);
-    [self sendOrientation];
     [self setNeedsDisplay:true];
 }
 
-- (void)drawRect:(NSRect)dirtyRect{
-
+- (void)drawRect:(NSRect)rect{
+    
     glClear (GL_COLOR_BUFFER_BIT);
-
-    for(int eye = 0; eye < 2; eye++){  // 0 left, 1 right
-//        glColor3ub(255,255,255);  // color overlay
-        if(eye == 0){
+    
+    for(int eye = 0; eye < 2; eye++){
+        if(eye == 0)                        // left screen
             glViewport (0, 0, w/2., h);
-            glMatrixMode (GL_PROJECTION);
-            glLoadIdentity ();
-            [self glPerspective:75.0f Aspect:(GLfloat)(w/2.)/(GLfloat)(h) Near:.1f Far:100.0f];
-        }
-        else if (eye == 1){
+        else if (eye == 1)                  // right screen
             glViewport (w/2., 0, w/2., h);
-            glMatrixMode (GL_PROJECTION);
-            glLoadIdentity ();
-            [self glPerspective:75.0f Aspect:(GLfloat)(w/2.)/(GLfloat)(h) Near:.1f Far:100.0f];
-        }
-        glMatrixMode (GL_MODELVIEW);
+        glMatrixMode (GL_PROJECTION);
         glLoadIdentity ();
-        glClear (GL_DEPTH_BUFFER_BIT); 
+        [self glPerspective:75.0f Aspect:(GLfloat)(w/2.)/(GLfloat)(h) Near:.1f Far:10.0f];
+        glMatrixMode (GL_MODELVIEW);
+        glClear (GL_DEPTH_BUFFER_BIT);
         
-        if(eye == 0){ // left
-            glTranslatef(0.01f, 0.0f, 0.0f);
-        }
-        else if (eye == 1){
-            glTranslatef(-0.01f, 0.0f, 0.0f);
-        }
+        glLoadIdentity ();
+        
+        if(eye == 0)                        // left
+            glTranslatef(oculusRift.IPD, 0.0f, 0.0f);
+        else if (eye == 1)                  // right
+            glTranslatef(-oculusRift.IPD, 0.0f, 0.0f);
+        
+        glPushMatrix();
+        
+        glMultMatrixf(oculusRift.orientation);
+        
         scene.render();
+        
+        glPopMatrix();
     }
     glFlush();
 }
@@ -136,24 +105,49 @@
     glFrustum(-fW, fW, -fH, fH, zNear, zFar);
 }
 
--(void) sendOrientation{
-    for(int i = 0; i < 16; i++)
-        scene.orientation[i] = oculusRift.orientation[i];
-}
-
--(void)activateFullScreen{
-    NSRect mainDisplayRect = [[NSScreen mainScreen] frame];
-    w = mainDisplayRect.size.width;
-    h = mainDisplayRect.size.height;
-    [self setFrame:mainDisplayRect];
-}
-
-- (void)toggleFullscreen
+-(void)keyDown:(NSEvent *)theEvent
 {
+    NSString *characters = [theEvent characters];
+    if([theEvent keyCode] == 53 && isFullscreen)
+        [self toggleFullscreen];
+    if ([characters length]) {
+        unichar character = [characters characterAtIndex:0];
+		switch (character) {
+			case 'f':
+                [self toggleFullscreen];
+                break;
+			case '=':
+            case '+':
+                oculusRift.IPD+=INCREMENT;
+                NSLog(@"virtual interpupillary distance: %.3f",oculusRift.IPD);
+                break;
+			case '-':
+            case '_':
+                oculusRift.IPD-=INCREMENT;
+                if(oculusRift.IPD < 0)
+                    oculusRift.IPD = 0;
+                NSLog(@"virtual interpupillary distance: %.3f",oculusRift.IPD);
+                break;
+		}
+	}
+    
+}
+
+- (BOOL)acceptsFirstResponder{
+    return YES;
+}
+- (BOOL)becomeFirstResponder{
+    return YES;
+}
+- (BOOL)resignFirstResponder{
+    return NO;
+}
+
+- (void)toggleFullscreen{
     NSWindow *mainWindow = [self window];
     if (isFullscreen) {
         [mainWindow setLevel:NSNormalWindowLevel];
-        [mainWindow makeKeyWindow];
+        [mainWindow makeKeyAndOrderFront:self];
         [mainWindow makeFirstResponder:self];
         [mainWindow setStyleMask:NSTitledWindowMask | NSClosableWindowMask |
                                  NSMiniaturizableWindowMask | NSResizableWindowMask ];

@@ -15,16 +15,12 @@
 class GLScene
 {
 public:
-    virtual void init();
-    virtual void update();
-    virtual void render();
-    
-    float orientation[16];  // orientation matrix
+    void init();
+    void update();
+    void render();
     
 private:
-    void draw_triangles();
     void drawPanorama();
-    void drawSquares();
     
     Texture *texture;
 	GLuint textureName;

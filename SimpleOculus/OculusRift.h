@@ -11,5 +11,8 @@
 @interface OculusRift : NSObject
 
 @property float *orientation;  // 4x4 orientation matrix
+@property float IPD;          // virtual interpupillary distance
+
+-(void) LogOculus;
 
 @end
