@@ -16,7 +16,6 @@
     OculusRift *oculusRift;
     GLScene scene;
     NSTimer *renderTimer;
-    NSRect windowRect;
     bool isFullscreen;
     int w, h;
 }
@@ -40,14 +39,14 @@
     scene.init();
 }
 
-- (void)reshape{                            // window scrolled, moved or resized
+- (void)reshape{   // window scrolled, moved or resized
 	NSRect baseRect = [self convertRectToBase:[self bounds]];
 	w = baseRect.size.width;
 	h = baseRect.size.height;
     [[self openGLContext] update];
 }
 
--(void) update{                             // window moved or resized
+-(void) update{    // window moved or resized
 }
 
 - (void) setupRenderTimer{
@@ -139,33 +138,31 @@
 - (BOOL)becomeFirstResponder{
     return YES;
 }
-- (BOOL)resignFirstResponder{
-    return NO;
-}
 
 - (void)toggleFullscreen{
     NSWindow *mainWindow = [self window];
     if (isFullscreen) {
+        NSRect windowFrame = [[NSScreen mainScreen] visibleFrame];
+        w = windowFrame.size.width;
+        h = windowFrame.size.height;
         [mainWindow setLevel:NSNormalWindowLevel];
-        [mainWindow makeKeyAndOrderFront:self];
-        [mainWindow makeFirstResponder:self];
         [mainWindow setStyleMask:NSTitledWindowMask | NSClosableWindowMask |
                                  NSMiniaturizableWindowMask | NSResizableWindowMask ];
-        [mainWindow setFrame:windowRect display:true];
+        [mainWindow setFrame:windowFrame display:true];
         [mainWindow setAcceptsMouseMovedEvents:YES];
         [mainWindow setTitle:@"SimpleOculus"];
+        [mainWindow makeKeyAndOrderFront:self];
+        [mainWindow makeFirstResponder:self];
         isFullscreen = false;
     } else {
-        // before leaving, store last window position/size
-        windowRect = [self convertRectToBase:[self bounds]];
         NSRect fullscreenFrame = [[NSScreen mainScreen] frame];
         w = fullscreenFrame.size.width;
         h = fullscreenFrame.size.height;
         [mainWindow setStyleMask:NSBorderlessWindowMask];
         [mainWindow setFrame:fullscreenFrame display:true];
         [mainWindow setAcceptsMouseMovedEvents:YES];
-        [mainWindow makeKeyAndOrderFront:self];
         [mainWindow setLevel:NSScreenSaverWindowLevel-1];
+        [mainWindow makeKeyAndOrderFront:self];
         [mainWindow makeFirstResponder:self];
         isFullscreen = true;
     }
