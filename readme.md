@@ -1,15 +1,13 @@
 # Simple Oculus
 #### skeleton framework for native Xcode Oculus Rift development
 
-------
-
 __features:__
 
 `F` for full screen `+` `-` to change virtual interpupillary distance
 
 __use:__
 
-Presently, this is a resource for building and linking LibOVR from scratch. Rendering is only in beginning stages of implementation.
+Presently, this is a resource for learning to build and link LibOVR from scratch. Rendering is only in beginning stages of implementation.
 
 The goal is to have as few lines of code as is practical.
 
@@ -19,31 +17,29 @@ The goal is to have as few lines of code as is practical.
 
 ###### from a blank Cocoa project:
 
-> Drag LibOVR into Xcode Project, uncheck “Add to Target”
+> Drag LibOVR into Xcode Project, uncheck all “Add to Target”
 
-> ![Finder](https://raw.github.com/robbykraft/SimpleOculus/master/tutorial/Finder.png)
-
-> * this example’s folder location
-
-------
+>  
 
 > Linked Frameworks and Libraries:
-
-> ![Libraries](https://raw.github.com/robbykraft/SimpleOculus/master/tutorial/Libraries.png)
 
 > * libovr.a (LibOVR/Lib/MacOS/Debug)
 
 > * IOKit.framework
 
-> Architectures
+> ![Libraries](https://raw.github.com/robbykraft/SimpleOculus/master/tutorial/Libraries.png)
 
-> ![Architectures](https://raw.github.com/robbykraft/SimpleOculus/master/tutorial/Architectures.png)
+>  
+
+> Architectures
 
 > * Architectures : 64-bit Intel (x86_64)
 
-> Apple LLVM 5.0 - Language - C++
+> ![Architectures](https://raw.github.com/robbykraft/SimpleOculus/master/tutorial/Architectures.png)
 
-> ![LLVM](https://raw.github.com/robbykraft/SimpleOculus/master/tutorial/LLVMLanguage.png)
+>  
+
+> Apple LLVM 5.0 - Language - C++
 
 > * C++ Standard Library : libstdc++ (GNU C++ standard library)
 
@@ -51,16 +47,20 @@ The goal is to have as few lines of code as is practical.
 
 > * Enable C++ Runtime Types : No
 
+> ![LLVM](https://raw.github.com/robbykraft/SimpleOculus/master/tutorial/LLVMLanguage.png)
+
+>  
+
 > Search Paths
-
-> ![SearchPath](https://raw.github.com/robbykraft/SimpleOculus/master/tutorial/SearchPathsHeader.png)
-
-> ![SearchPath](https://raw.github.com/robbykraft/SimpleOculus/master/tutorial/SearchPathsLibrary.png)
 
 > * Header Search Paths : LibOVR/Src, LibOVR/Include
 > * Library Search Paths :
 > * - Debug : LibOVR/Lib/MacOS/Debug
 > * - Release : LibOVR/Lib/MacOS/Release
+
+> ![SearchPath](https://raw.github.com/robbykraft/SimpleOculus/master/tutorial/SearchPathsHeader.png)
+
+> ![SearchPath](https://raw.github.com/robbykraft/SimpleOculus/master/tutorial/SearchPathsLibrary.png)
 
 ------
 
@@ -69,6 +69,14 @@ The goal is to have as few lines of code as is practical.
 > ![sample](https://raw.github.com/robbykraft/SimpleOculus/master/tutorial/Objective-C++.png)
 
 ------
+
+> ![Finder](https://raw.github.com/robbykraft/SimpleOculus/master/tutorial/Finder.png)
+
+> * for reference: this is the example’s folder location
+
+------
+
+
 
 ### Test it
 
@@ -87,17 +95,17 @@ int main(int argc, const char * argv[])
 }
 ```
 
-If this builds, you did it! Start digging into some source code!
+If this builds, everything should be working!
 
 ------
 ### Sample scene
 
-The sample environment is an equirectangular panorama. Traveling is restricted since the projection is a flat image. This isn’t really a good demo, it should probably change soon.
+The sample environment is an equirectangular panorama. Traveling is restricted since the projection is a flat image. This isn’t really a good demo because of that, it should probably change soon.
 
 Photo by Peter Gawthrop (flicker: gawthrop)
 
 ###### TODO:
 
 * implement HMD warping
-* expose more of the Oculus SDK to the developer
+* expose more of the Oculus SDK
 * build a scene that will allow for translation

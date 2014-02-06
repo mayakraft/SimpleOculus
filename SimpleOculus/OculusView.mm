@@ -73,7 +73,7 @@
             glViewport (w/2., 0, w/2., h);
         glMatrixMode (GL_PROJECTION);
         glLoadIdentity ();
-        [self glPerspective:75.0f Aspect:(GLfloat)(w/2.)/(GLfloat)(h) Near:.1f Far:10.0f];
+        [self glPerspective:90.0f Aspect:(GLfloat)(w/2.)/(GLfloat)(h) Near:.1f Far:10.0f];
         glMatrixMode (GL_MODELVIEW);
         glClear (GL_DEPTH_BUFFER_BIT);
         
