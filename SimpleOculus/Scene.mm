@@ -1,30 +1,30 @@
 //
-//  GLScene.cpp
+//  Scene.cpp
 //  SimpleOculus
 //
 //  Created by Robby Kraft on 1/25/14.
 //  Copyright (c) 2014 Robby Kraft. All rights reserved.
 //
 
-#include "GLScene.h"
+#include "Scene.h"
 #import <OpenGL/glu.h>
 
-void GLScene::init(){
+void Scene::init(){
     textureName = 0;
     NSString *path = [[NSBundle mainBundle] pathForResource:@"outside" ofType:@"jpg"];
     texture = [[Texture alloc] initWithPath:path];
     textureName = [texture textureName];
 }
 
-void GLScene::update(){
+void Scene::update(){
     
 }
 
-void GLScene::render(){
+void Scene::render(){
     drawPanorama();
 }
 
-void GLScene::drawPanorama(){
+void Scene::drawPanorama(){
     
     GLUquadric *quadric = NULL;
     static GLfloat radius = 1.0f;

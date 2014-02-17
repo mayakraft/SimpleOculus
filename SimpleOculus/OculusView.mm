@@ -7,17 +7,27 @@
 //
 
 #import "OculusView.h"
-#import "OculusRift.h"
-#include "GLScene.h"
+#import "OculusInterface.h"
+#include "Scene.h"
 
 #define INCREMENT .005f
 
+#define TEXTURE_WIDTH 1024
+#define TEXTURE_HEIGHT 1024
+
 @interface OculusView (){
-    OculusRift *oculusRift;
-    GLScene scene;
+    OculusInterface *oculusRift;
     NSTimer *renderTimer;
     bool isFullscreen;
     int w, h;
+    GLuint fboId;
+    GLuint rboId;
+    GLuint textureId;
+    GLuint _program;
+    GLint uniforms[6];
+    bool warping;  // enable barrel warping
+
+    Scene scene;
 }
 
 @end
@@ -34,9 +44,11 @@
 }
 
 -(void) awakeFromNib{
-    oculusRift = [[OculusRift alloc] init];
+    oculusRift = [[OculusInterface alloc] init];
     [self setupRenderTimer];
-    scene.init();
+//-------------------------
+    scene.init();        // place for custom scene
+//-------------------------
 }
 
 - (void)reshape{   // window scrolled, moved or resized
@@ -44,6 +56,7 @@
 	w = baseRect.size.width;
 	h = baseRect.size.height;
     [[self openGLContext] update];
+    [self createRenderTarget];
 }
 
 -(void) update{    // window moved or resized
@@ -54,45 +67,242 @@
         renderTimer = [NSTimer scheduledTimerWithTimeInterval:.005 target:self selector:@selector(updateGLView:) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode];
         [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSModalPanelRunLoopMode];
+        [self loadShaders];
     }
 }
 
 - (void) updateGLView:(NSTimer *)timer{
-    scene.update();
+//-------------------------
+    scene.update();        // place for custom scene
+//-------------------------
     [self setNeedsDisplay:true];
 }
 
 - (void)drawRect:(NSRect)rect{
+
+    glClearColor(0, 0, 0, 0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     
-    glClear (GL_COLOR_BUFFER_BIT);
-    
-    for(int eye = 0; eye < 2; eye++){
+    for(int eye = 0; eye < 2; eye++){  // 0 = left , 1 = right
+
+        // setup scene to render to texture
+        glViewport(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+        glMatrixMode (GL_PROJECTION);
+        glLoadIdentity ();
+        [self glPerspective:120.0f Aspect:(GLfloat)(w/2.)/(GLfloat)(h) Near:.1f Far:10.0f];
+        glMatrixMode (GL_MODELVIEW);
+        // setup texture
+        glBindFramebuffer(GL_FRAMEBUFFER, fboId);
+        glClearColor(1, 1, 1, 1);
+        glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+        //draw scene to square texture
+        glLoadIdentity ();
+        // offset by interpupillary distance
+        if(eye == 0)
+            glTranslatef(oculusRift.IPD, 0.0f, 0.0f);
+        else if (eye == 1)
+            glTranslatef(-oculusRift.IPD, 0.0f, 0.0f);
+        glPushMatrix();
+            // apply headset orientation
+            glMultMatrixf(oculusRift.orientation);
+            // draw scene
+//-------------------------
+            scene.render();        // place for custom scene
+//-------------------------
+        glPopMatrix();
+        // unbind framebuffer, now render to screen
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        
+        glBindTexture(GL_TEXTURE_2D, textureId);
+        glGenerateMipmap(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, 0);
+
         if(eye == 0)                        // left screen
             glViewport (0, 0, w/2., h);
         else if (eye == 1)                  // right screen
             glViewport (w/2., 0, w/2., h);
+        
         glMatrixMode (GL_PROJECTION);
         glLoadIdentity ();
-        [self glPerspective:90.0f Aspect:(GLfloat)(w/2.)/(GLfloat)(h) Near:.1f Far:10.0f];
+        [self glPerspective:90.0f Aspect:(GLfloat)(w/2.0f)/(GLfloat)(h) Near:.1f Far:10.0f];
         glMatrixMode (GL_MODELVIEW);
-        glClear (GL_DEPTH_BUFFER_BIT);
         
-        glLoadIdentity ();
-        
-        if(eye == 0)                        // left
-            glTranslatef(oculusRift.IPD, 0.0f, 0.0f);
-        else if (eye == 1)                  // right
-            glTranslatef(-oculusRift.IPD, 0.0f, 0.0f);
-        
+        glLoadIdentity();
         glPushMatrix();
         
-        glMultMatrixf(oculusRift.orientation);
+        if(warping){
+            glUseProgram(_program);
+            // preset suggestions from http://www.mtbs3d.com/phpbb/viewtopic.php?f=140&t=17081
+            const float Scale[2] = {0.1469278, 0.2350845};
+            const float ScaleIn[2] = {2, 2.5};
+            const float HmdWarpParam[4] = {1, 0.22, 0.24, 0};
+            const float LeftLensCenter[2] = {0.2863248*2.0, 0.5};
+            const float LeftScreenCenter[2] = {0.55, 0.5};
+            const float RightLensCenter[2] = {(0.7136753-.5) * 2.0, 0.5};
+            const float RightScreenCenter[2] = {0.45, 0.5};
+            // apply shader uniforms
+            glUniform2fv(uniforms[3], 1, Scale);
+            glUniform2fv(uniforms[4], 1, ScaleIn);
+            glUniform4fv(uniforms[5], 1, HmdWarpParam);
+            if(eye == 0){
+                glUniform2fv(uniforms[1], 1, LeftLensCenter);
+                glUniform2fv(uniforms[2], 1, LeftScreenCenter);
+            }
+            else{
+                glUniform2fv(uniforms[1], 1, RightLensCenter);
+                glUniform2fv(uniforms[2], 1, RightScreenCenter);
+            }
+        }
+        else{  // no warp, closer to fill screen
+            glTranslatef(0, 0, -1.0);
+        }
+        // draw scene on a quad for each side
+        glBindTexture(GL_TEXTURE_2D, textureId);
+        [self drawQuad];
+        glBindTexture(GL_TEXTURE_2D, 0);
         
-        scene.render();
+        if(warping)
+            glUseProgram(0);
         
         glPopMatrix();
     }
     glFlush();
+}
+
+-(void) drawQuad{
+    glColor4f(1, 1, 1, 1);
+    glBegin(GL_TRIANGLES);
+    glNormal3f(0,0,1);
+    glTexCoord2f(1,1);  glVertex3f(1,1,0);
+    glTexCoord2f(0,1);  glVertex3f(-1,1,0);
+    glTexCoord2f(0,0);  glVertex3f(-1,-1,0);
+    glTexCoord2f(0,0);  glVertex3f(-1,-1,0);
+    glTexCoord2f(1,0);  glVertex3f(1,-1,0);
+    glTexCoord2f(1,1);  glVertex3f(1,1,0);
+    glEnd();
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+#pragma mark- Shaders
+- (BOOL)loadShaders{
+    
+    GLuint vertShader, fragShader;
+    NSString *vertShaderPathname, *fragShaderPathname;
+    // Create shader program.
+    _program = glCreateProgram();
+    // Create and compile vertex shader.
+    vertShaderPathname = [[NSBundle mainBundle] pathForResource:@"BarrelWarp" ofType:@"vs"];
+    if (![self compileShader:&vertShader type:GL_VERTEX_SHADER file:vertShaderPathname]) {
+        NSLog(@"Failed to compile vertex shader");
+        return NO;
+    }
+    // Create and compile fragment shader.
+    fragShaderPathname = [[NSBundle mainBundle] pathForResource:@"BarrelWarp" ofType:@"fs"];
+    if (![self compileShader:&fragShader type:GL_FRAGMENT_SHADER file:fragShaderPathname]) {
+        NSLog(@"Failed to compile fragment shader");
+        return NO;
+    }
+    // Attach vertex shader to program.
+    glAttachShader(_program, vertShader);
+    // Attach fragment shader to program.
+    glAttachShader(_program, fragShader);
+    // Link program.
+    if (![self linkProgram:_program]) {
+        NSLog(@"Failed to link program: %d", _program);
+        if (vertShader) {
+            glDeleteShader(vertShader);
+            vertShader = 0;
+        }
+        if (fragShader) {
+            glDeleteShader(fragShader);
+            fragShader = 0;
+        }
+        if (_program) {
+            glDeleteProgram(_program);
+            _program = 0;
+        }
+        return NO;
+    }
+    // Get uniform locations.
+    uniforms[0] = glGetUniformLocation(_program, "Texture");
+    uniforms[1] = glGetUniformLocation(_program, "LensCenter");
+    uniforms[2] = glGetUniformLocation(_program, "ScreenCenter");
+    uniforms[3] = glGetUniformLocation(_program, "Scale");
+    uniforms[4] = glGetUniformLocation(_program, "ScaleIn");
+    uniforms[5] = glGetUniformLocation(_program, "HmdWarpParam");
+    // Release vertex and fragment shaders.
+    if (vertShader) {
+        glDetachShader(_program, vertShader);
+        glDeleteShader(vertShader);
+    }
+    if (fragShader) {
+        glDetachShader(_program, fragShader);
+        glDeleteShader(fragShader);
+    }
+    // success, enable warping
+    warping = true;
+    return YES;
+}
+
+- (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file{
+    GLint status;
+    const GLchar *source;
+    source = (GLchar *)[[NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:nil] UTF8String];
+    if (!source) {
+        NSLog(@"Failed to load vertex shader");
+        return NO;
+    }
+    *shader = glCreateShader(type);
+    glShaderSource(*shader, 1, &source, NULL);
+    glCompileShader(*shader);
+    glGetShaderiv(*shader, GL_COMPILE_STATUS, &status);
+    if (status == 0) {
+        glDeleteShader(*shader);
+        return NO;
+    }
+    return YES;
+}
+
+- (BOOL)linkProgram:(GLuint)prog{
+    GLint status;
+    glLinkProgram(prog);
+    glGetProgramiv(prog, GL_LINK_STATUS, &status);
+    if (status == 0) {
+        return NO;
+    }
+    return YES;
+}
+
+#pragma mark- OpenGL
+
+// FBO tutorial: http://www.songho.ca/opengl/gl_fbo.html
+
+-(void) createRenderTarget{
+    
+    glDeleteBuffers(1, &(fboId));
+    glDeleteBuffers(1, &(rboId));
+    
+    fboId = rboId = textureId = 0;
+    glGenTextures(1, &textureId);
+    glBindTexture(GL_TEXTURE_2D, textureId);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glGenFramebuffers(1, &fboId);
+    glBindFramebuffer(GL_FRAMEBUFFER, fboId);  //Once a FBO is bound, all OpenGL operations affect onto the current bound framebuffer object.
+    glGenRenderbuffers(1, &rboId);
+    glBindRenderbuffer(GL_RENDERBUFFER, rboId);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+    glBindRenderbuffer(GL_RENDERBUFFER, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rboId);
+    
+//    NSLog(@"SUCCESS ?: (0/1): %d: %d", GL_FRAMEBUFFER_COMPLETE == glCheckFramebufferStatus(GL_FRAMEBUFFER), glCheckFramebufferStatus(GL_FRAMEBUFFER));
 }
 
 // replacement for gluPerspective from NEHE
@@ -103,6 +313,8 @@
     fW = fH * aspect;
     glFrustum(-fW, fW, -fH, fH, zNear, zFar);
 }
+
+#pragma mark- User Input
 
 -(void)keyDown:(NSEvent *)theEvent
 {
@@ -129,14 +341,6 @@
                 break;
 		}
 	}
-    
-}
-
-- (BOOL)acceptsFirstResponder{
-    return YES;
-}
-- (BOOL)becomeFirstResponder{
-    return YES;
 }
 
 - (void)toggleFullscreen{
@@ -166,6 +370,13 @@
         [mainWindow makeFirstResponder:self];
         isFullscreen = true;
     }
+}
+
+- (BOOL)acceptsFirstResponder{
+    return YES;
+}
+- (BOOL)becomeFirstResponder{
+    return YES;
 }
 
 @end

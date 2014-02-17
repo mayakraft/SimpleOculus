@@ -1,21 +1,36 @@
 # Simple Oculus
-#### skeleton framework for native Xcode Oculus Rift development
+#### skeleton project for Mac OS X native Oculus Rift
+
+![ScreenShot](https://raw.github.com/robbykraft/SimpleOculus/master/SimpleOculus/screenShot.jpg)
 
 __features:__
 
+* sensor orientation
+* barrel warp
+* keyboard:
 `F` for full screen `+` `-` to change virtual interpupillary distance
 
-__use:__
 
-Presently, this is a resource for learning to build and link LibOVR from scratch. Rendering is only in beginning stages of implementation.
+###still in development
 
-The goal is to have as few lines of code as is practical.
+__BETA -__ Build and link LibOVR from scratch, see notes below.
+
+__ALPHA -__ Rendering is on its way now but still much work to be done, for instance, warping is not calibrated, alternative aspect ratios are ignored, IPD isn't dynamically calculated.
+
+------
+### plug in your own scene
+
+This project is setup to accept an OpenGL C++ / Objective-C scene (`Scene.h + Scene.cpp/mm`)
+
+It’s only setup for head rotation, no translation (walking).
+
+The sample environment is an immersion in an equirectangular panorama. I realized after the fact this doesn’t make a good demo. No walking is allowed, on top of that the edge warping is too steep. (Photo- Peter Gawthrop, flicker: gawthrop)
 
 ------
 
-### Notes for getting LibOVR to build in Xcode:
+> ### Notes for building LibOVR in Xcode:
 
-###### from a blank Cocoa project:
+> ##### from a blank Cocoa project:
 
 > Drag LibOVR into Xcode Project, uncheck all “Add to Target”
 
@@ -70,17 +85,18 @@ The goal is to have as few lines of code as is practical.
 
 ------
 
-> ![Finder](https://raw.github.com/robbykraft/SimpleOculus/master/tutorial/Finder.png)
+> For reference: this is the example’s folder location
 
-> * for reference: this is the example’s folder location
+> ![Finder](https://raw.github.com/robbykraft/SimpleOculus/master/tutorial/Finder.png)
 
 ------
 
 
 
-### Test it
+> ### Test it
 
-edit `main.mm`:
+> edit `main.mm`:
+
 
 ```
 #import <Cocoa/Cocoa.h>
@@ -95,17 +111,5 @@ int main(int argc, const char * argv[])
 }
 ```
 
-If this builds, everything should be working!
 
-------
-### Sample scene
-
-The sample environment is an equirectangular panorama. Traveling is restricted since the projection is a flat image. This isn’t really a good demo because of that, it should probably change soon.
-
-Photo by Peter Gawthrop (flicker: gawthrop)
-
-###### TODO:
-
-* implement HMD warping
-* expose more of the Oculus SDK
-* build a scene that will allow for translation
+> If this builds, you should be on your way!

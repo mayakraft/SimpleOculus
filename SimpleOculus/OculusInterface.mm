@@ -6,32 +6,30 @@
 //  Copyright (c) 2014 Robby Kraft. All rights reserved.
 //
 
-#import "OculusRift.h"
+#import "OculusInterface.h"
 #include "OVR.h"
-#include <iostream.h>
-#include <stdio.h>
 
 using namespace OVR;
 using namespace std;
 
-@interface OculusRift (){
-    Ptr<DeviceManager>	pManager;
-    Ptr<HMDDevice>		pHMD;
-    Ptr<SensorDevice>	pSensor;
-    SensorFusion*		pFusionResult;
-    HMDInfo             Info;
-    bool                InfoLoaded;
+@interface OculusInterface (){
+    Ptr<DeviceManager> pManager;
+    Ptr<HMDDevice> pHMD;
+    Ptr<SensorDevice> pSensor;
+    SensorFusion* pFusionResult;
+    HMDInfo Info;
+    bool InfoLoaded;
 }
 
 @end
 
-@implementation OculusRift
+@implementation OculusInterface
 
 -(id) init{
     self = [super init];
     if(self){
         _orientation = (float*)malloc(sizeof(float)*16);
-        _IPD = .14f;    // for full-screen 1280x800, .08 FOV 75 or .14 FOV 90
+        _IPD = .2f;    // for full-screen 1280x800: .08-FOV75  .14-FOV90  .2-FOV120
         [self initOculus];
     }
     return self;
@@ -54,10 +52,10 @@ using namespace std;
         pFusionResult->AttachToSensor(pSensor);
     }
     [self LogOculus];
-    [NSTimer scheduledTimerWithTimeInterval:1./60. target:self selector:@selector(updateOculus) userInfo:Nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:1./60. target:self selector:@selector(updateOrientation) userInfo:Nil repeats:YES];
 }
 
--(void) updateOculus{
+-(void) updateOrientation{
 
     if(pSensor){
 		Quatf quaternion = pFusionResult->GetOrientation();
@@ -96,43 +94,40 @@ using namespace std;
 }
 
 -(void) LogOculus {
-	cout << "----- Oculus Console -----" << endl;
-    
+	printf("----- Oculus Console -----\n");
 	if (pHMD)
-		cout << " [x] HMD Found" << endl;
+		printf(" [x] HMD Found\n");
 	else
-		cout << " [ ] HMD Not Found" << endl;
+		printf(" [ ] HMD Not Found\n");
 	if (pSensor)
-		cout << " [x] Sensor Found" << endl;
+		printf(" [x] Sensor Found\n");
 	else
-        cout << " [ ] Sensor Not Found" << endl;
-	cout << "--------------------------" << endl;
+        printf(" [ ] Sensor Not Found\n");
+	printf("--------------------------\n");
 	if (InfoLoaded)
     {
-		cout << " DisplayDeviceName: " << Info.DisplayDeviceName << endl;
-		cout << " ProductName: " << Info.ProductName << endl;
-		cout << " Manufacturer: " << Info.Manufacturer << endl;
-		cout << " Version: " << Info.Version << endl;
-		cout << " HResolution: " << Info.HResolution<< endl;
-		cout << " VResolution: " << Info.VResolution<< endl;
-		cout << " HScreenSize: " << Info.HScreenSize<< endl;
-		cout << " VScreenSize: " << Info.VScreenSize<< endl;
-		cout << " VScreenCenter: " << Info.VScreenCenter<< endl;
-		cout << " EyeToScreenDistance: " << Info.EyeToScreenDistance << endl;
-		cout << " LensSeparationDistance: " << Info.LensSeparationDistance << endl;
-		cout << " InterpupillaryDistance: " << Info.InterpupillaryDistance << endl;
-		cout << " DistortionK[0]: " << Info.DistortionK[0] << endl;
-		cout << " DistortionK[1]: " << Info.DistortionK[1] << endl;
-		cout << " DistortionK[2]: " << Info.DistortionK[2] << endl;
-		cout << "--------------------------" << endl;
+		printf(" DisplayDeviceName: %s\n", Info.DisplayDeviceName);
+		printf(" ProductName: %s\n", Info.ProductName);
+		printf(" Manufacturer: %s\n", Info.Manufacturer);
+		printf(" Version: %d\n", Info.Version);
+		printf(" HResolution: %d\n", Info.HResolution);
+		printf(" VResolution: %d\n", Info.VResolution);
+		printf(" HScreenSize: %f\n", Info.HScreenSize);
+		printf(" VScreenSize: %f\n", Info.VScreenSize);
+		printf(" VScreenCenter: %f\n", Info.VScreenCenter);
+		printf(" EyeToScreenDistance: %f\n", Info.EyeToScreenDistance);
+		printf(" LensSeparationDistance: %f\n", Info.LensSeparationDistance);
+		printf(" InterpupillaryDistance: %f\n", Info.InterpupillaryDistance);
+		printf(" DistortionK[0]: %f\n", Info.DistortionK[0]);
+		printf(" DistortionK[1]: %f\n", Info.DistortionK[1]);
+		printf(" DistortionK[2]: %f\n", Info.DistortionK[2]);
+		printf("--------------------------\n");
     }
 	if(pSensor){
 		Quatf quaternion = pFusionResult->GetOrientation();
 		float yaw, pitch, roll;
 		quaternion.GetEulerAngles<Axis_Y, Axis_X, Axis_Z>(&yaw, &pitch, &roll);
-		cout << " Yaw: " << RadToDegree(yaw) <<
-        ", Pitch: " << RadToDegree(pitch) <<
-        ", Roll: " << RadToDegree(roll) << endl;
+		printf(" Yaw: %f, Pitch: %f, Roll: %f\n", RadToDegree(yaw), RadToDegree(pitch), RadToDegree(roll));
 	}
 }
 
@@ -147,7 +142,7 @@ using namespace std;
 {
     Matrix4f _mat;
     double length2 =  q.x*q.x + q.y*q.y + q.z*q.z + q.w*q.w;
-    if (fabs(length2) <= std::numeric_limits<double>::min())
+    if (fabs(length2) <= DBL_MIN)
     {
         _mat.M[0][0] = 1.0; _mat.M[1][0] = 0.0; _mat.M[2][0] = 0.0;
         _mat.M[0][1] = 0.0; _mat.M[1][1] = 1.0; _mat.M[2][1] = 0.0;

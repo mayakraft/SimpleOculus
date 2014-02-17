@@ -1,18 +1,18 @@
 //
-//  GLScene.h
+//  Scene.h
 //  SimpleOculus
 //
 //  Created by Robby Kraft on 1/25/14.
 //  Copyright (c) 2014 Robby Kraft. All rights reserved.
 //
 
-#ifndef __SimpleOculus__GLScene__
-#define __SimpleOculus__GLScene__
+#ifndef __SimpleOculus__Scene__
+#define __SimpleOculus__Scene__
 
 #include <iostream>
 #import "Texture.h"
 
-class GLScene
+class Scene
 {
 public:
     void init();
@@ -26,4 +26,4 @@ private:
 	GLuint textureName;
 };
 
-#endif /* defined(__SimpleOculus__GLScene__) */
+#endif /* defined(__SimpleOculus__Scene__) */
