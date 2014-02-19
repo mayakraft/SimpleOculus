@@ -8,8 +8,8 @@ __features:__
 * sensor orientation
 * barrel warp
 * keyboard:
-`F` for full screen `+` `-` to change virtual interpupillary distance
-
+`F` full screen `+` `-` change virtual interpupillary distance `△` `▽` `◁` `▷` walk around
+* mouse: click to activate mouse look
 
 ###still in development
 
@@ -24,13 +24,13 @@ This project is setup to accept an OpenGL C++ / Objective-C scene (`Scene.h + Sc
 
 It’s only setup for head rotation, no translation (walking).
 
-The sample environment is an immersion in an equirectangular panorama. I realized after the fact this doesn’t make a good demo. No walking is allowed, on top of that the edge warping is too steep. (Photo- Peter Gawthrop, flicker: gawthrop)
+The sample environment is an immersion in an equirectangular panorama. I realized after the fact this doesn’t make a good demo. No walking is allowed, on top of that the edge warping is too steep. (Photo- Peter Gawthrop, flicker: gawthrop). Gonna change this soon.
 
 ------
 
-> ### Notes for building LibOVR in Xcode:
+> # Notes for building LibOVR in Xcode:
 
-> ##### from a blank Cocoa project:
+> ### from a blank Cocoa project:
 
 > Drag LibOVR into Xcode Project, uncheck all “Add to Target”
 

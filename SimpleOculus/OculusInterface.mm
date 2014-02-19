@@ -51,8 +51,13 @@ using namespace std;
     if (pSensor){
         pFusionResult->AttachToSensor(pSensor);
     }
+    
     [self LogOculus];
-    [NSTimer scheduledTimerWithTimeInterval:1./60. target:self selector:@selector(updateOrientation) userInfo:Nil repeats:YES];
+    
+    if(InfoLoaded)
+        [NSTimer scheduledTimerWithTimeInterval:1./60. target:self selector:@selector(updateOrientation) userInfo:Nil repeats:YES];
+    else
+        [self loadIdentity];
 }
 
 -(void) updateOrientation{
@@ -216,6 +221,12 @@ using namespace std;
     _mat.M[3][3] = 1.0;
 #endif
     return _mat;
+}
+
+-(void)loadIdentity{
+    for(int i = 0; i < 15; i++)
+        _orientation[i] = 0.0f;
+    _orientation[0] = _orientation[5] = _orientation[10] = _orientation[15] = 1.0f;
 }
 
 @end

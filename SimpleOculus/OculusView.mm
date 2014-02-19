@@ -15,6 +15,13 @@
 #define TEXTURE_WIDTH 1024
 #define TEXTURE_HEIGHT 1024
 
+#define UP 0
+#define DOWN 1
+#define LEFT 2
+#define RIGHT 3
+
+#define STRIDE .005
+
 @interface OculusView (){
     OculusInterface *oculusRift;
     NSTimer *renderTimer;
@@ -28,6 +35,12 @@
     bool warping;  // enable barrel warping
 
     Scene scene;
+    
+    // keyboard mouse input
+    NSPoint mouseRotation;
+    bool mouseRotationOn;
+    NSPoint keyboardTranslation;
+    bool keyboardArrows[4];
 }
 
 @end
@@ -39,6 +52,10 @@
     if(self){
         NSOpenGLContext *glcontext = [self openGLContext];
         [glcontext makeCurrentContext];
+        mouseRotation = NSMakePoint(0.0f, 0.0f);
+        mouseRotationOn = false;
+        keyboardTranslation = NSMakePoint(0.0f, 0.0f);
+        keyboardArrows[0] = keyboardArrows[1] = keyboardArrows[2] = keyboardArrows[3] = false;
     }
     return self;
 }
@@ -57,6 +74,7 @@
 	h = baseRect.size.height;
     [[self openGLContext] update];
     [self createRenderTarget];
+    [[self window] setAcceptsMouseMovedEvents:YES];
 }
 
 -(void) update{    // window moved or resized
@@ -72,6 +90,15 @@
 }
 
 - (void) updateGLView:(NSTimer *)timer{
+    // disabled for this scene
+//    if(keyboardArrows[UP])
+//        keyboardTranslation.y += STRIDE;
+//    if(keyboardArrows[DOWN])
+//        keyboardTranslation.y -= STRIDE;
+//    if(keyboardArrows[LEFT])
+//        keyboardTranslation.x += STRIDE;
+//    if(keyboardArrows[RIGHT])
+//        keyboardTranslation.x -= STRIDE;
 //-------------------------
     scene.update();        // place for custom scene
 //-------------------------
@@ -104,8 +131,13 @@
         else if (eye == 1)
             glTranslatef(-oculusRift.IPD, 0.0f, 0.0f);
         glPushMatrix();
+            // keyboard translation
+            glTranslatef(keyboardTranslation.x, 0.0f, keyboardTranslation.y);
             // apply headset orientation
             glMultMatrixf(oculusRift.orientation);
+            // mouse rotation
+            glRotatef(mouseRotation.y, 1, 0, 0);
+            glRotatef(mouseRotation.x, 0, 1, 0);
             // draw scene
 //-------------------------
             scene.render();        // place for custom scene
@@ -316,12 +348,41 @@
 
 #pragma mark- User Input
 
+-(void)mouseMoved:(NSEvent *)theEvent{
+    if(mouseRotationOn){
+        mouseRotation.x += [theEvent deltaX];
+        mouseRotation.y += [theEvent deltaY];
+    }
+}
+
+-(void)mouseDown:(NSEvent *)theEvent{
+    mouseRotationOn = !mouseRotationOn;
+}
+
+-(void)keyUp:(NSEvent *)theEvent{
+    if([theEvent keyCode] == 126) // up arrow
+        keyboardArrows[UP] = false;
+    else if([theEvent keyCode] == 125) // down arrow
+        keyboardArrows[DOWN] = false;
+    else if([theEvent keyCode] == 124) // right arrow
+        keyboardArrows[RIGHT] = false;
+    else if([theEvent keyCode] == 123) // left arrow
+        keyboardArrows[LEFT] = false;
+}
 -(void)keyDown:(NSEvent *)theEvent
 {
     NSString *characters = [theEvent characters];
     if([theEvent keyCode] == 53 && isFullscreen)
         [self toggleFullscreen];
-    if ([characters length]) {
+    if([theEvent keyCode] == 126) // up arrow
+        keyboardArrows[UP] = true;
+    else if([theEvent keyCode] == 125) // down arrow
+        keyboardArrows[DOWN] = true;
+    else if([theEvent keyCode] == 124) // right arrow
+        keyboardArrows[RIGHT] = true;
+    else if([theEvent keyCode] == 123) // left arrow
+        keyboardArrows[LEFT] = true;
+    else if ([characters length]) {
         unichar character = [characters characterAtIndex:0];
 		switch (character) {
 			case 'f':
