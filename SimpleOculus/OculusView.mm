@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Robby Kraft. All rights reserved.
 //
 
+#import <GLUT/GLUT.h>
 #import "OculusView.h"
 #import "OculusInterface.h"
 #include "Scene.h"
