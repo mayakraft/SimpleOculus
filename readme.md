@@ -1,5 +1,8 @@
 # Simple Oculus
+
 ### Native Mac OS X Oculus Rift
+
+#### port an OpenGL scene to Oculus Rift
 
 ![ScreenShot](https://raw.github.com/robbykraft/SimpleOculus/master/SimpleOculus/screenShot.jpg)
 
@@ -9,18 +12,13 @@ __features:__
 * barrel warp
 * keyboard:
 `F` full screen `+` `-` change virtual interpupillary distance `△` `▽` `◁` `▷` walk around
-* mouse: click to activate mouse look
-* __plug in your own scene:__ Oculus Riftify your OpenGL game. Plug it into the project in place of Scene.h/mm. 
+* mouse: click to activate mouse look 
 
 (sample scene panorama photo by Peter Gawthrop)
 
 ------
 
-### apparently there is little to no documentation on getting LibOVR to build in an Xcode project- here’s a start:
-
-------
-
-> # LibOVR in Xcode
+## Xcode + LibOVR integration instructions
 
 > ### from a blank OSX Cocoa project
 
@@ -60,13 +58,13 @@ __features:__
 
 > ![sample](https://raw.github.com/robbykraft/SimpleOculus/master/tutorial/Objective-C++.png)
 
-------
+> ------
 
 > For reference: this is the example’s directory structure
 
 > ![Finder](https://raw.github.com/robbykraft/SimpleOculus/master/tutorial/Finder.png)
 
-------
+> ------
 
 
 
