@@ -1,24 +1,27 @@
-# Simple Oculus
+# Native Mac OS X Oculus Rift
 
-### Native Mac OS X Oculus Rift
-
-#### port an OpenGL scene to Oculus Rift
+a very simple OpenGL project with the Oculus SDK already integrated
 
 ![ScreenShot](https://raw.github.com/robbykraft/SimpleOculus/master/SimpleOculus/screenShot.jpg)
 
-__features:__
+# features
 
 * sensor orientation
-* barrel warp
+* interpupillary distance
+* barrel warp shader
 * keyboard:
 `F` full screen `+` `-` change virtual interpupillary distance `△` `▽` `◁` `▷` walk around
 * mouse: click to activate mouse look 
 
-(sample scene panorama photo by Peter Gawthrop)
+careful! things like IPD, height from ground... are initially uncalibrated. these are things which can induce headaches.
 
 ------
 
 ## Xcode + LibOVR integration instructions
+
+**NOTE: you don’t have to do any of this**, but this should be everything you need to build a project like this one up from scratch.
+
+------
 
 > ### from a blank OSX Cocoa project
 
@@ -66,12 +69,9 @@ __features:__
 
 > ------
 
-
-
 > ### Test it
 
 > edit `main.mm`:
-
 
 ```
 #import <Cocoa/Cocoa.h>
@@ -86,5 +86,4 @@ int main(int argc, const char * argv[])
 }
 ```
 
-
-> If this builds, you should be on your way!
+> If this builds, success!

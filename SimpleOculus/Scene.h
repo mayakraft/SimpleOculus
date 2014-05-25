@@ -17,10 +17,12 @@ class Scene
 public:
     void init();
     void update();
-    void render();
+    void render(float translationX, float translationZ);
     
 private:
+    void lighting();
     void drawPanorama();
+    void drawRect(float x, float y, float width, float height);
     
     Texture *texture;
 	GLuint textureName;

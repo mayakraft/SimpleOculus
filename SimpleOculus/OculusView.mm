@@ -13,6 +13,7 @@
 
 #define INCREMENT .005f
 
+// buffer for shader
 #define TEXTURE_WIDTH 1024
 #define TEXTURE_HEIGHT 1024
 
@@ -21,7 +22,7 @@
 #define LEFT 2
 #define RIGHT 3
 
-#define STRIDE .005
+#define STRIDE .01
 
 @interface OculusView (){
     OculusInterface *oculusRift;
@@ -37,10 +38,12 @@
 
     Scene scene;
     
+    float _attitudeMatrix[16];
+    
     // keyboard mouse input
     NSPoint mouseRotation;
     bool mouseRotationOn;
-    NSPoint keyboardTranslation;
+    NSPoint walkPosition;
     bool keyboardArrows[4];
 }
 
@@ -55,7 +58,7 @@
         [glcontext makeCurrentContext];
         mouseRotation = NSMakePoint(0.0f, 0.0f);
         mouseRotationOn = false;
-        keyboardTranslation = NSMakePoint(0.0f, 0.0f);
+        walkPosition = NSMakePoint(0.0f, 0.0f);
         keyboardArrows[0] = keyboardArrows[1] = keyboardArrows[2] = keyboardArrows[3] = false;
     }
     return self;
@@ -91,15 +94,42 @@
 }
 
 - (void) updateGLView:(NSTimer *)timer{
-    // disabled for this scene
-//    if(keyboardArrows[UP])
-//        keyboardTranslation.y += STRIDE;
-//    if(keyboardArrows[DOWN])
-//        keyboardTranslation.y -= STRIDE;
-//    if(keyboardArrows[LEFT])
-//        keyboardTranslation.x += STRIDE;
-//    if(keyboardArrows[RIGHT])
-//        keyboardTranslation.x -= STRIDE;
+    
+    float lookAzimuth = -mouseRotation.x/180.*M_PI;
+    
+//TODO: oculus orientation not affecting keyboard
+    
+//    oculusRift.orientation
+//    _lookVector = GLKVector3Make(-_attitudeMatrix.m02,
+//                                 -_attitudeMatrix.m12,
+//                                 -_attitudeMatrix.m22);
+//    _lookAzimuth = atan2f(_lookVector.x, -_lookVector.z);
+//    _lookAltitude = asinf(_lookVector.y);
+    
+    if(keyboardArrows[UP]){
+        float x = STRIDE * sinf(lookAzimuth);
+        float y = STRIDE * cosf(lookAzimuth);
+        walkPosition.x += x;
+        walkPosition.y += y;
+    }
+    if(keyboardArrows[DOWN]){
+        float x = STRIDE * sinf(lookAzimuth);
+        float y = STRIDE * cosf(lookAzimuth);
+        walkPosition.x -= x;
+        walkPosition.y -= y;
+    }
+    if(keyboardArrows[LEFT]){
+        float x = STRIDE * sinf(lookAzimuth+M_PI*.5);
+        float y = STRIDE * cosf(lookAzimuth+M_PI*.5);
+        walkPosition.x += x;
+        walkPosition.y += y;
+    }
+    if(keyboardArrows[RIGHT]){
+        float x = STRIDE * sinf(lookAzimuth+M_PI*.5);
+        float y = STRIDE * cosf(lookAzimuth+M_PI*.5);
+        walkPosition.x -= x;
+        walkPosition.y -= y;
+    }
 //-------------------------
     scene.update();        // place for custom scene
 //-------------------------
@@ -117,7 +147,7 @@
         glViewport(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT);
         glMatrixMode (GL_PROJECTION);
         glLoadIdentity ();
-        [self glPerspective:120.0f Aspect:(GLfloat)(w/2.)/(GLfloat)(h) Near:.1f Far:10.0f];
+        [self glPerspective:120.0f Aspect:(GLfloat)(w/2.)/(GLfloat)(h) Near:.1f Far:1000.0f];
         glMatrixMode (GL_MODELVIEW);
         // setup texture
         glBindFramebuffer(GL_FRAMEBUFFER, fboId);
@@ -132,8 +162,7 @@
         else if (eye == 1)
             glTranslatef(-oculusRift.IPD, 0.0f, 0.0f);
         glPushMatrix();
-            // keyboard translation
-            glTranslatef(keyboardTranslation.x, 0.0f, keyboardTranslation.y);
+        
             // apply headset orientation
             glMultMatrixf(oculusRift.orientation);
             // mouse rotation
@@ -141,7 +170,8 @@
             glRotatef(mouseRotation.x, 0, 1, 0);
             // draw scene
 //-------------------------
-            scene.render();        // place for custom scene
+            // keyboard translation
+            scene.render(walkPosition.x, walkPosition.y);  // place for custom scene
 //-------------------------
         glPopMatrix();
         // unbind framebuffer, now render to screen
@@ -350,6 +380,10 @@
 #pragma mark- User Input
 
 -(void)mouseMoved:(NSEvent *)theEvent{
+
+}
+
+-(void)mouseDragged:(NSEvent *)theEvent{
     if(mouseRotationOn){
         mouseRotation.x += [theEvent deltaX];
         mouseRotation.y += [theEvent deltaY];
@@ -357,7 +391,11 @@
 }
 
 -(void)mouseDown:(NSEvent *)theEvent{
-    mouseRotationOn = !mouseRotationOn;
+    mouseRotationOn = true;
+}
+
+-(void)mouseUp:(NSEvent *)theEvent{
+    mouseRotationOn = false;
 }
 
 -(void)keyUp:(NSEvent *)theEvent{

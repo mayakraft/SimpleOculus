@@ -26,6 +26,7 @@
 		D541EBC9189450E300B069F4 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D541EBC8189450E300B069F4 /* OpenGL.framework */; };
 		D541EBCC1894526A00B069F4 /* Scene.mm in Sources */ = {isa = PBXBuildFile; fileRef = D541EBCA1894526A00B069F4 /* Scene.mm */; };
 		D541EBCD1894542100B069F4 /* Scene.mm in Sources */ = {isa = PBXBuildFile; fileRef = D541EBCA1894526A00B069F4 /* Scene.mm */; };
+		D574328A193291F200073216 /* Tycho.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D5743289193291F200073216 /* Tycho.jpg */; };
 		D592CBB3189DD78D00E072EB /* OculusInterface.mm in Sources */ = {isa = PBXBuildFile; fileRef = D592CBB2189DD78D00E072EB /* OculusInterface.mm */; };
 		D5A3815B18A9B14B00D6539D /* Texture.mm in Sources */ = {isa = PBXBuildFile; fileRef = D5A3815918A9B14B00D6539D /* Texture.mm */; };
 		D5A3816118AA086200D6539D /* BarrelWarp.fs in Resources */ = {isa = PBXBuildFile; fileRef = D5A3814C18A9ADB800D6539D /* BarrelWarp.fs */; };
@@ -169,6 +170,7 @@
 		D541EBC8189450E300B069F4 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		D541EBCA1894526A00B069F4 /* Scene.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Scene.mm; sourceTree = "<group>"; };
 		D541EBCB1894526A00B069F4 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
+		D5743289193291F200073216 /* Tycho.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Tycho.jpg; sourceTree = "<group>"; };
 		D592CBB1189DD78D00E072EB /* OculusInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OculusInterface.h; sourceTree = "<group>"; };
 		D592CBB2189DD78D00E072EB /* OculusInterface.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OculusInterface.mm; sourceTree = "<group>"; };
 		D5A3814C18A9ADB800D6539D /* BarrelWarp.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = BarrelWarp.fs; sourceTree = "<group>"; };
@@ -492,6 +494,7 @@
 			isa = PBXGroup;
 			children = (
 				D53E29FD18965E4700EBEFA2 /* outside.jpg */,
+				D5743289193291F200073216 /* Tycho.jpg */,
 				D541EBCB1894526A00B069F4 /* Scene.h */,
 				D541EBCA1894526A00B069F4 /* Scene.mm */,
 			);
@@ -579,6 +582,7 @@
 				D5A3816218AA086400D6539D /* BarrelWarp.vs in Resources */,
 				D541EBAA1893C82500B069F4 /* Images.xcassets in Resources */,
 				D53E29FE18965E4700EBEFA2 /* outside.jpg in Resources */,
+				D574328A193291F200073216 /* Tycho.jpg in Resources */,
 				D541EBA21893C82500B069F4 /* Credits.rtf in Resources */,
 				D541EBA81893C82500B069F4 /* MainMenu.xib in Resources */,
 			);
