@@ -22,7 +22,7 @@
 #define LEFT 2
 #define RIGHT 3
 
-#define STRIDE .01
+#define STRIDE .01  // walk speed
 
 @interface OculusView (){
     OculusInterface *oculusRift;
@@ -95,9 +95,7 @@
 
 - (void) updateGLView:(NSTimer *)timer{
     
-    float lookAzimuth = -mouseRotation.x/180.*M_PI;
-    
-//TODO: oculus orientation not affecting keyboard
+//TODO: somebody with an Oculus check this for me:
     
 //    oculusRift.orientation
 //    _lookVector = GLKVector3Make(-_attitudeMatrix.m02,
@@ -105,6 +103,22 @@
 //                                 -_attitudeMatrix.m22);
 //    _lookAzimuth = atan2f(_lookVector.x, -_lookVector.z);
 //    _lookAltitude = asinf(_lookVector.y);
+    
+//    oculusRift.orientation[2]
+//    oculusRift.orientation[6]
+//    oculusRift.orientation[10]
+//
+//    oculusRift.orientation[8]
+//    oculusRift.orientation[9]
+//    oculusRift.orientation[10]
+    
+    /* there may be some issues with signs  */
+                            /*  THIS is either 2 & 10 or 8 & 10  */
+    float lookAzimuth = atan2f(oculusRift.orientation[2], oculusRift.orientation[10]);
+    
+    float mouseAzimuth = -mouseRotation.x/180.*M_PI;
+    
+    lookAzimuth += mouseAzimuth;
     
     if(keyboardArrows[UP]){
         float x = STRIDE * sinf(lookAzimuth);
@@ -380,10 +394,11 @@
 #pragma mark- User Input
 
 -(void)mouseMoved:(NSEvent *)theEvent{
-
+    [super mouseMoved:theEvent];
 }
 
 -(void)mouseDragged:(NSEvent *)theEvent{
+    [super mouseDragged:theEvent];
     if(mouseRotationOn){
         mouseRotation.x += [theEvent deltaX];
         mouseRotation.y += [theEvent deltaY];
@@ -391,10 +406,12 @@
 }
 
 -(void)mouseDown:(NSEvent *)theEvent{
+    [super mouseDown:theEvent];
     mouseRotationOn = true;
 }
 
 -(void)mouseUp:(NSEvent *)theEvent{
+    [super mouseUp:theEvent];
     mouseRotationOn = false;
 }
 

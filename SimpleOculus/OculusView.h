@@ -7,6 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <CoreGraphics/CoreGraphics.h>
+#import <OpenGL/OpenGL.h>
+#import <OpenGL/gl.h>
 
 @interface OculusView: NSOpenGLView
 

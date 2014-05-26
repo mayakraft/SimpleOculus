@@ -10,13 +10,11 @@
 		D53E29BE1895F1C200EBEFA2 /* libovr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D53E295C1895F1C200EBEFA2 /* libovr.a */; };
 		D53E29F01895F68500EBEFA2 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D53E29EF1895F68500EBEFA2 /* CoreFoundation.framework */; };
 		D53E29F21895F69000EBEFA2 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D53E29F11895F69000EBEFA2 /* IOKit.framework */; };
-		D53E29FE18965E4700EBEFA2 /* outside.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D53E29FD18965E4700EBEFA2 /* outside.jpg */; };
 		D541EB921893C82500B069F4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D541EB911893C82500B069F4 /* Cocoa.framework */; };
 		D541EB9C1893C82500B069F4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D541EB9A1893C82500B069F4 /* InfoPlist.strings */; };
 		D541EB9E1893C82500B069F4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D541EB9D1893C82500B069F4 /* main.m */; };
 		D541EBA21893C82500B069F4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D541EBA01893C82500B069F4 /* Credits.rtf */; };
 		D541EBA51893C82500B069F4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D541EBA41893C82500B069F4 /* AppDelegate.m */; };
-		D541EBA81893C82500B069F4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D541EBA61893C82500B069F4 /* MainMenu.xib */; };
 		D541EBAA1893C82500B069F4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D541EBA91893C82500B069F4 /* Images.xcassets */; };
 		D541EBB11893C82500B069F4 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D541EBB01893C82500B069F4 /* XCTest.framework */; };
 		D541EBB21893C82500B069F4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D541EB911893C82500B069F4 /* Cocoa.framework */; };
@@ -145,7 +143,6 @@
 		D53E29F31895F69400EBEFA2 /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = System/Library/Frameworks/IOSurface.framework; sourceTree = SDKROOT; };
 		D53E29F51895F6CC00EBEFA2 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		D53E29F818965CB500EBEFA2 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
-		D53E29FD18965E4700EBEFA2 /* outside.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = outside.jpg; sourceTree = "<group>"; };
 		D541EB8E1893C82500B069F4 /* SimpleOculus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleOculus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D541EB911893C82500B069F4 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D541EB941893C82500B069F4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -493,7 +490,6 @@
 		D5A6C63918A2417100438C02 /* Panorama Scene */ = {
 			isa = PBXGroup;
 			children = (
-				D53E29FD18965E4700EBEFA2 /* outside.jpg */,
 				D5743289193291F200073216 /* Tycho.jpg */,
 				D541EBCB1894526A00B069F4 /* Scene.h */,
 				D541EBCA1894526A00B069F4 /* Scene.mm */,
@@ -581,10 +577,8 @@
 				D5A3816118AA086200D6539D /* BarrelWarp.fs in Resources */,
 				D5A3816218AA086400D6539D /* BarrelWarp.vs in Resources */,
 				D541EBAA1893C82500B069F4 /* Images.xcassets in Resources */,
-				D53E29FE18965E4700EBEFA2 /* outside.jpg in Resources */,
 				D574328A193291F200073216 /* Tycho.jpg in Resources */,
 				D541EBA21893C82500B069F4 /* Credits.rtf in Resources */,
-				D541EBA81893C82500B069F4 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
