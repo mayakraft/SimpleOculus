@@ -171,10 +171,14 @@
         //draw scene to square texture
         glLoadIdentity ();
         // offset by interpupillary distance
-        if(eye == 0)
-            glTranslatef(oculusRift.IPD, 0.0f, 0.0f);
-        else if (eye == 1)
-            glTranslatef(-oculusRift.IPD, 0.0f, 0.0f);
+        if(eye == 0){
+            glRotatef(-oculusRift.IPD*100.0, 0.0f, 1.0f, 0.0f);
+//            glTranslatef(oculusRift.IPD, 0.0f, 0.0f);
+        }
+        else if (eye == 1){
+            glRotatef(oculusRift.IPD*100.0, 0.0f, 1.0f, 0.0f);
+//            glTranslatef(-oculusRift.IPD, 0.0f, 0.0f);
+        }
         glPushMatrix();
         
             // apply headset orientation

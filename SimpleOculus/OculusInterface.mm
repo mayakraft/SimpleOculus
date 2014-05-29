@@ -29,7 +29,7 @@ using namespace std;
     self = [super init];
     if(self){
         _orientation = (float*)malloc(sizeof(float)*16);
-        _IPD = .2f;    // for full-screen 1280x800: .08-FOV75  .14-FOV90  .2-FOV120
+        _IPD = .15f;    // for full-screen 1280x800: .08-FOV75  .14-FOV90  .2-FOV120
         [self initOculus];
     }
     return self;

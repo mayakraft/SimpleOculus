@@ -6,20 +6,21 @@ a very simple OpenGL project with the Oculus SDK already integrated
 
 # features
 
-* sensor orientation
-* interpupillary distance
 * barrel warp shader
 * keyboard:
 `F` full screen `+` `-` change virtual interpupillary distance `△` `▽` `◁` `▷` walk around
 * mouse: click to activate mouse look 
 
-careful! things like IPD, height from ground... are initially uncalibrated. these are things which can induce headaches.
+__some help is still needed with:__
+
+* L&R eye orientation
+* interpupillary distance
 
 ------
 
 ## Xcode + LibOVR integration instructions
 
-**NOTE: you don’t have to do any of this**, but this should be everything you need to build a project like this one up from scratch.
+**NOTE THIS IS ALREADY DONE. you don’t have to do any of this**, these are notes for how I built this project from scratch- in case you want to do it yourself.
 
 ------
 
