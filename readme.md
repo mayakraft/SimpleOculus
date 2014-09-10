@@ -1,20 +1,14 @@
 # Native Mac OS X Oculus Rift
 
-a very simple OpenGL project with the Oculus SDK already integrated
+a simple OpenGL project with the Oculus SDK already integrated, including an implementation of the standard barrel warp shader
 
 ![ScreenShot](https://raw.github.com/robbykraft/SimpleOculus/master/SimpleOculus/screenShot.jpg)
 
-# features
+# controls
 
-* barrel warp shader
 * keyboard:
 `F` full screen `+` `-` change virtual interpupillary distance `△` `▽` `◁` `▷` walk around
 * mouse: click to activate mouse look 
-
-__some help is still needed with:__
-
-* L&R eye orientation
-* interpupillary distance
 
 ------
 

@@ -95,27 +95,7 @@
 
 - (void) updateGLView:(NSTimer *)timer{
     
-//TODO: somebody with an Oculus check this for me:
-    
-//    oculusRift.orientation
-//    _lookVector = GLKVector3Make(-_attitudeMatrix.m02,
-//                                 -_attitudeMatrix.m12,
-//                                 -_attitudeMatrix.m22);
-//    _lookAzimuth = atan2f(_lookVector.x, -_lookVector.z);
-//    _lookAltitude = asinf(_lookVector.y);
-    
-//    oculusRift.orientation[2]
-//    oculusRift.orientation[6]
-//    oculusRift.orientation[10]
-//
-//    oculusRift.orientation[8]
-//    oculusRift.orientation[9]
-//    oculusRift.orientation[10]
-    
-    /* there may be some issues with signs  */
-                            /*  THIS is either 2 & 10 or 8 & 10  */
     float lookAzimuth = atan2f(oculusRift.orientation[2], oculusRift.orientation[10]);
-    
     float mouseAzimuth = -mouseRotation.x/180.*M_PI;
     
     lookAzimuth += mouseAzimuth;
@@ -161,7 +141,7 @@
         glViewport(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT);
         glMatrixMode (GL_PROJECTION);
         glLoadIdentity ();
-        [self glPerspective:120.0f Aspect:(GLfloat)(w/2.)/(GLfloat)(h) Near:.1f Far:1000.0f];
+        [self glPerspective:120.0f Aspect:(GLfloat)(w)/(GLfloat)(h) Near:.1f Far:1000.0f];
         glMatrixMode (GL_MODELVIEW);
         // setup texture
         glBindFramebuffer(GL_FRAMEBUFFER, fboId);
