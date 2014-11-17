@@ -1,6 +1,8 @@
 # Native Mac OS X Oculus Rift
 
-a simple OpenGL project with the Oculus SDK already integrated, including an implementation of the standard barrel warp shader
+A simple Mac OS X OpenGL VR environment with the barrel warp shader, including Oculus SDK (DK1 generation) integration. For DK2, OculusVR formally supports a sample SDK+Xcode project.
+
+Also useful as a skeleton VR environment for other (non-Oculus) VR HMDs
 
 ![ScreenShot](https://raw.github.com/robbykraft/SimpleOculus/master/SimpleOculus/screenShot.jpg)
 
