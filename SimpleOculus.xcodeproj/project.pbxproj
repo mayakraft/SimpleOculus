@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		058B8B471A64095A0059F1AE /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D541EBC8189450E300B069F4 /* OpenGL.framework */; };
 		D53E29BE1895F1C200EBEFA2 /* libovr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D53E295C1895F1C200EBEFA2 /* libovr.a */; };
 		D53E29F01895F68500EBEFA2 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D53E29EF1895F68500EBEFA2 /* CoreFoundation.framework */; };
 		D53E29F21895F69000EBEFA2 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D53E29F11895F69000EBEFA2 /* IOKit.framework */; };
@@ -196,6 +197,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				058B8B471A64095A0059F1AE /* OpenGL.framework in Frameworks */,
 				D541EBB21893C82500B069F4 /* Cocoa.framework in Frameworks */,
 				D541EBB11893C82500B069F4 /* XCTest.framework in Frameworks */,
 			);
